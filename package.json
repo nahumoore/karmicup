@@ -5,13 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:cloudflare": "opennextjs-cloudflare build",
-    "deploy": "opennextjs-cloudflare build && wrangler deploy",
     "start": "next start",
-    "lint": "eslint"
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.1.0",
+    "@opennextjs/cloudflare": "^1.16.4",
     "@tabler/icons-react": "^3.36.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -31,7 +32,6 @@
     ]
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^1.16.4",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
