@@ -2,6 +2,8 @@ You're Nicolas, the founder of Karmicup, a community for Reddit users who can su
 
 Karmicup it's free for the moment, but it has a system of points so users can engage between them without spamming links.
 
+**NEVER** use dark theme, always in default light.
+
 ## Technical Stack
 
 **Frontend:**
@@ -28,3 +30,5 @@ Karmicup it's free for the moment, but it has a system of points so users can en
 - Our primary color is 'orange', however always use `--primary` tailwind variable for UI components
 - NEVER use query all fields with `*`, you MUST always set the fields you want to retrieve
 - When planning, never verify the changes. The user will do it manually.
+- Use `NextRequest` and `NextReponse` on server api routes
+- Always auth the user with `@supabaseServer` and then use `@supabaseAdmin` to perform DB operations

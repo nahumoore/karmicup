@@ -58,14 +58,14 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-3">
-          <a
-            href="#"
+          <Link
+            href="/login"
             className="hidden md:block text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium"
           >
             Sign in
-          </a>
-          <Button className="h-9 px-5 text-sm font-semibold rounded-lg">
-            Join for free
+          </Link>
+          <Button asChild className="h-9 px-5 text-sm font-semibold rounded-lg">
+            <Link href="/register">Join for free</Link>
           </Button>
         </div>
       </nav>

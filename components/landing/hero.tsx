@@ -11,11 +11,12 @@ import {
   IconMessageCircle2,
   IconShare3,
 } from '@tabler/icons-react'
+import { PLATFORM_METRICS } from '@/consts/platform-metrics'
 
 const stats = [
-  { value: '12,400+', label: 'Active members' },
-  { value: '89K+', label: 'Posts boosted' },
-  { value: '100%', label: 'Always free' },
+  { value: PLATFORM_METRICS.members, label: 'Active members' },
+  { value: PLATFORM_METRICS.postsBoosted, label: 'Posts boosted' },
+  { value: PLATFORM_METRICS.alwaysFree, label: 'Always free' },
 ]
 
 const mockPosts = [

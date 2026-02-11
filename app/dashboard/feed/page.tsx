@@ -1,13 +1,13 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import {
   IconArrowBigUp,
   IconBrandReddit,
@@ -19,7 +19,6 @@ import {
   IconInfoCircle,
   IconLoader2,
   IconMessage,
-  IconSparkles,
   IconZoomCheck,
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
@@ -106,29 +105,6 @@ export default function CommunityFeedPage() {
           Help other members and earn points you can spend on your own posts.
         </p>
       </header>
-
-      {/* Points legend */}
-      <div className="flex items-center gap-5 mb-6 p-3.5 rounded-xl bg-primary/5 border border-primary/15">
-        <div className="flex items-center gap-2 text-sm text-stone-600">
-          <div className="w-7 h-7 rounded-lg bg-white border border-primary/20 flex items-center justify-center">
-            <IconArrowBigUp className="w-4 h-4 text-primary" stroke={2.5} />
-          </div>
-          Upvote →{" "}
-          <span className="font-semibold text-stone-800">+1 point</span>
-        </div>
-        <div className="w-px h-5 bg-primary/20" />
-        <div className="flex items-center gap-2 text-sm text-stone-600">
-          <div className="w-7 h-7 rounded-lg bg-white border border-primary/20 flex items-center justify-center">
-            <IconMessage className="w-4 h-4 text-primary" />
-          </div>
-          Comment →{" "}
-          <span className="font-semibold text-stone-800">+5 points</span>
-        </div>
-        <div className="flex items-center gap-1.5 ml-auto text-xs text-primary/70">
-          <IconSparkles className="w-3.5 h-3.5" />
-          Points unlock free boosts for your posts
-        </div>
-      </div>
 
       {/* Feed */}
       <section className="space-y-3">
@@ -227,7 +203,8 @@ export default function CommunityFeedPage() {
                       <IconCheck className="w-3 h-3" stroke={3} />
                     </div>
                     <IconCoin className="w-3.5 h-3.5" />+
-                    {done === "comment" ? "5" : done === "both" ? "6" : "1"} pts earned
+                    {done === "comment" ? "5" : done === "both" ? "6" : "1"} pts
+                    earned
                   </div>
                 ) : (
                   <button
@@ -247,7 +224,10 @@ export default function CommunityFeedPage() {
       </section>
 
       {/* Help dialog */}
-      <Dialog open={!!dialog} onOpenChange={(open) => !open && !verifying && setDialog(null)}>
+      <Dialog
+        open={!!dialog}
+        onOpenChange={(open) => !open && !verifying && setDialog(null)}
+      >
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
@@ -281,10 +261,30 @@ export default function CommunityFeedPage() {
               <div className="grid grid-cols-3 gap-2">
                 {(
                   [
-                    { type: "upvote", label: "Upvote", pts: 1, Icon: IconArrowBigUp },
-                    { type: "comment", label: "Comment", pts: 5, Icon: IconMessage },
-                    { type: "both", label: "Both", pts: 6, Icon: IconZoomCheck },
-                  ] as { type: Interaction; label: string; pts: number; Icon: React.ElementType }[]
+                    {
+                      type: "upvote",
+                      label: "Upvote",
+                      pts: 1,
+                      Icon: IconArrowBigUp,
+                    },
+                    {
+                      type: "comment",
+                      label: "Comment",
+                      pts: 5,
+                      Icon: IconMessage,
+                    },
+                    {
+                      type: "both",
+                      label: "Both",
+                      pts: 6,
+                      Icon: IconZoomCheck,
+                    },
+                  ] as {
+                    type: Interaction;
+                    label: string;
+                    pts: number;
+                    Icon: React.ElementType;
+                  }[]
                 ).map(({ type, label, pts, Icon }) => {
                   const isSelected = dialog?.type === type;
                   return (
@@ -304,7 +304,10 @@ export default function CommunityFeedPage() {
                           isSelected ? "bg-primary/15" : "bg-stone-100",
                         )}
                       >
-                        <Icon className="w-4 h-4" stroke={type === "upvote" ? 2.5 : 2} />
+                        <Icon
+                          className="w-4 h-4"
+                          stroke={type === "upvote" ? 2.5 : 2}
+                        />
                       </div>
                       <div>
                         <p className="text-xs font-semibold">{label}</p>
@@ -329,21 +332,53 @@ export default function CommunityFeedPage() {
                 Steps
               </p>
               <ol className="space-y-2">
-                {(
-                  dialog?.type === "upvote"
+                {(dialog?.type === "upvote"
+                  ? [
+                      <>
+                        Open the{" "}
+                        <a
+                          href={activePost?.redditUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary underline underline-offset-2 hover:text-primary/80"
+                        >
+                          Reddit post
+                        </a>{" "}
+                        in a new tab.
+                      </>,
+                      "Hit the upvote arrow at the top-left of the post.",
+                      "Come back here and click Verify — we'll credit your 1 point.",
+                    ]
+                  : dialog?.type === "comment"
                     ? [
-                        <>Open the <a href={activePost?.redditUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:text-primary/80">Reddit post</a> in a new tab.</>,
-                        "Hit the upvote arrow at the top-left of the post.",
-                        "Come back here and click Verify — we'll credit your 1 point.",
-                      ]
-                    : dialog?.type === "comment"
-                    ? [
-                        <>Open the <a href={activePost?.redditUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:text-primary/80">Reddit post</a> in a new tab.</>,
+                        <>
+                          Open the{" "}
+                          <a
+                            href={activePost?.redditUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary underline underline-offset-2 hover:text-primary/80"
+                          >
+                            Reddit post
+                          </a>{" "}
+                          in a new tab.
+                        </>,
                         "Leave a genuine, helpful comment.",
                         "Come back here and click Verify — we'll credit your 5 points.",
                       ]
                     : [
-                        <>Open the <a href={activePost?.redditUrl} target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2 hover:text-primary/80">Reddit post</a> in a new tab.</>,
+                        <>
+                          Open the{" "}
+                          <a
+                            href={activePost?.redditUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary underline underline-offset-2 hover:text-primary/80"
+                          >
+                            Reddit post
+                          </a>{" "}
+                          in a new tab.
+                        </>,
                         "Upvote the post using the arrow at the top-left.",
                         "Leave a genuine, helpful comment.",
                         "Come back here and click Verify — we'll credit your 6 points.",
@@ -372,7 +407,9 @@ export default function CommunityFeedPage() {
                 <div key={label} className="flex items-center gap-2">
                   <IconCoin className="w-4 h-4 text-primary shrink-0" />
                   <div>
-                    <p className="text-[11px] text-stone-400 font-medium">{label}</p>
+                    <p className="text-[11px] text-stone-400 font-medium">
+                      {label}
+                    </p>
                     <p className="text-sm font-bold text-stone-800">{pts}</p>
                   </div>
                 </div>
