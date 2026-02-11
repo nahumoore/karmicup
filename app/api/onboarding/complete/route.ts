@@ -1,6 +1,11 @@
+import { redditFetch, RedditApiError } from "@/lib/helpers/reddit";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { supabaseServer } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
+
+type RedditUserAbout = {
+  data?: { id: string };
+};
 
 export const POST = async (request: NextRequest) => {
   const { redditUsername } = await request.json();
@@ -12,20 +17,26 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
-  const redditRes = await fetch(
-    `https://www.reddit.com/user/${redditUsername}/about.json`,
-    { headers: { "Content-Type": "application/json" } },
-  );
+  let redditData: RedditUserAbout;
 
-  if (!redditRes.ok) {
+  try {
+    redditData = await redditFetch<RedditUserAbout>(
+      `/user/${redditUsername}/about.json`,
+    );
+  } catch (err) {
+    if (err instanceof RedditApiError && err.status === 404) {
+      return NextResponse.json(
+        { error: "Reddit user not found. Please check your username." },
+        { status: 404 },
+      );
+    }
     return NextResponse.json(
-      { error: "Reddit user not found. Please check your username." },
-      { status: 404 },
+      { error: "Could not reach Reddit. Please try again." },
+      { status: 502 },
     );
   }
 
-  const redditData = await redditRes.json();
-  const redditUserId: string = redditData.data?.id;
+  const redditUserId: string | undefined = redditData.data?.id;
 
   if (!redditUserId) {
     return NextResponse.json(

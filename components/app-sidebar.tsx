@@ -13,6 +13,11 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import {
+  type RedditAccount,
+  useRedditAccount,
+} from "@/hooks/use-reddit-account";
+import { type UserInfo, useUserInfo } from "@/hooks/use-user-info";
+import {
   IconArrowBigUp,
   IconCoin,
   IconCompass,
@@ -35,14 +40,38 @@ const navItems = [
   },
 ];
 
-const user = {
-  name: "Nicolas",
-  email: "u/nicolas_dev",
-  avatar: "",
-};
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  userInfo: UserInfo;
+  redditAccount: RedditAccount;
+}
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+  userInfo,
+  redditAccount,
+  ...props
+}: AppSidebarProps) {
   const pathname = usePathname();
+  const { setUserInfoData, setIsLoadingUserInfo } = useUserInfo();
+  const {
+    setRedditAccountData,
+    setActiveRedditAccount,
+    setIsLoadingRedditAccount,
+  } = useRedditAccount();
+
+  React.useEffect(() => {
+    setUserInfoData(userInfo);
+    setIsLoadingUserInfo(false);
+
+    setRedditAccountData(redditAccount);
+    setActiveRedditAccount(redditAccount);
+    setIsLoadingRedditAccount(false);
+  }, [
+    userInfo,
+    redditAccount,
+    setUserInfoData,
+    setRedditAccountData,
+    setActiveRedditAccount,
+  ]);
 
   return (
     <Sidebar variant="inset" {...props}>
@@ -69,7 +98,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </p>
           <div className="flex items-center gap-1.5">
             <IconCoin className="w-4 h-4 text-primary" />
-            <span className="text-xl font-bold tracking-tight">1,240</span>
+            <span className="text-xl font-bold tracking-tight">
+              {userInfo.points.toLocaleString()}
+            </span>
             <span className="text-xs text-muted-foreground font-medium">
               pts
             </span>
@@ -100,7 +131,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
 
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser
+          user={{
+            name: userInfo.name,
+            email: `u/${redditAccount.username}`,
+            avatar: "",
+          }}
+        />
       </SidebarFooter>
     </Sidebar>
   );

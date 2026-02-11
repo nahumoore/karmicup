@@ -32,3 +32,14 @@ Karmicup it's free for the moment, but it has a system of points so users can en
 - When planning, never verify the changes. The user will do it manually.
 - Use `NextRequest` and `NextReponse` on server api routes
 - Always auth the user with `@supabaseServer` and then use `@supabaseAdmin` to perform DB operations
+
+## Reddit API Calls
+
+- **NEVER** use raw `fetch` for Reddit API calls.
+- Always use `redditFetch` from `@/lib/helpers/reddit`. It handles:
+  - Proper `User-Agent` header (required by Reddit)
+  - Automatic retries (up to 2) with delay on network errors and 5xx responses
+  - Rate-limit handling (429 with `Retry-After`)
+  - No retries on 4xx errors (except 429)
+- Catch `RedditApiError` (also exported from the helper) to handle specific HTTP status codes.
+- Paths can be relative (e.g. `/user/foo/about.json`) or full URLs.

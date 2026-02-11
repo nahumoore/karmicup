@@ -4,6 +4,7 @@ import { motion } from "motion/react"
 import Link from "next/link"
 import { RegisterForm } from "@/components/auth/register-form"
 import { IconArrowBigUp } from "@tabler/icons-react"
+import { PLATFORM_METRICS } from "@/consts/platform-metrics"
 
 const decorativeArrows = [
   { style: { top: "8%", left: "12%" }, size: 80, opacity: 0.07, delay: 0 },
@@ -102,17 +103,17 @@ export default function RegisterPage() {
 
             <div className="flex items-center gap-6 text-center">
               <div>
-                <div className="text-2xl font-bold text-primary tabular-nums">12k+</div>
+                <div className="text-2xl font-bold text-primary tabular-nums">{PLATFORM_METRICS.members}</div>
                 <div className="text-xs text-zinc-500 mt-1">Active members</div>
               </div>
               <div className="h-8 w-px bg-zinc-800" />
               <div>
-                <div className="text-2xl font-bold text-primary tabular-nums">48k+</div>
+                <div className="text-2xl font-bold text-primary tabular-nums">{PLATFORM_METRICS.postsBoosted}</div>
                 <div className="text-xs text-zinc-500 mt-1">Posts boosted</div>
               </div>
               <div className="h-8 w-px bg-zinc-800" />
               <div>
-                <div className="text-2xl font-bold text-primary tabular-nums">100%</div>
+                <div className="text-2xl font-bold text-primary tabular-nums">{PLATFORM_METRICS.alwaysFree}</div>
                 <div className="text-xs text-zinc-500 mt-1">Free forever</div>
               </div>
             </div>

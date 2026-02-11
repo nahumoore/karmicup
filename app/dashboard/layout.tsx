@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/sidebar";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { supabaseServer } from "@/lib/supabase/server";
-import { redirect } from "next/dist/client/components/navigation";
+import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
   children,
@@ -23,23 +23,30 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
-  // GET DATA
-  const [{
-    data: redditAccount
-  },{
-    data: userInfo
-  }] = await Promise.all([
-    const { data: redditAccount } = await supabaseAdmin.
-      from("reddit_accounts")
-      .select("id, username")
-      .eq("user_id", user.id)
+  const [{ data: userInfo }, { data: redditAccount }] = await Promise.all([
+    supabaseAdmin
+      .from("user_info")
+      .select("id, name, email, points")
+      .eq("id", user.id)
       .single(),
-    supabaseAdmin.from("user").select("id, points").eq("id", user.id).single(),
+    supabaseAdmin
+      .from("reddit_accounts")
+      .select("id, username, reddit_user_id")
+      .eq("user_id", user.id)
+      .maybeSingle(),
   ]);
+
+  if (!userInfo) {
+    redirect("/login");
+  }
+
+  if (!redditAccount) {
+    redirect("/onboarding");
+  }
 
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar userInfo={userInfo} redditAccount={redditAccount} />
       <SidebarInset>
         <header className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
