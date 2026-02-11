@@ -17,6 +17,10 @@ Karmicup it's free for the moment, but it has a system of points so users can en
 - Date FNS (date-fns) - Always use this for date handling
 - Supabase (PostgreSQL + No RLS policies, use role api key for backend routes)
 
+## DEPLOYMENT
+
+- We're using Cloudflare for production.
+
 ## GUIDELINES
 
 - Always use semantic HTML tags to structure content, instead of div use section, article, header, footer, etc.
