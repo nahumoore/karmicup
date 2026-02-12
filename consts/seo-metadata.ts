@@ -60,6 +60,11 @@ export const PAGE_SEO = {
     description:
       'Meet Nico, the founder of Karmicup. A Reddit marketing expert who built a free engagement community after getting tired of paying for the first upvotes.',
   },
+  settings: {
+    title: 'Settings',
+    description:
+      'Manage your Karmicup account settings. Update your Reddit username and personal information.',
+  },
 } satisfies Record<string, { title: string; description: string }>
 
 /**

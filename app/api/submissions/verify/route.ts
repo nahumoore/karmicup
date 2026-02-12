@@ -112,16 +112,27 @@ export const POST = async (request: NextRequest) => {
   const commentId = match[3] ?? null;
 
   // Fetch fresh data: for comment submissions fetch the specific comment + replies,
-  // for post submissions fetch the post + top-level comments
+  // for post submissions fetch the post + top-level comments.
+  // Also fetch the helper's recent comment history in parallel — Reddit's post
+  // comment listing can lag by seconds, while the user profile endpoint reflects
+  // new comments almost immediately.
   let freshScore: number;
   let freshCommentCount: number;
   let postComments: Array<{ kind: string; data: RedditCommentData }> = [];
+  let userRecentComments: Array<{ kind: string; data: RedditCommentData }> = [];
 
   try {
+    const userCommentsPromise = redditFetch<RedditCommentListing>(
+      `/user/${redditAccount.username}/comments.json?sort=new&limit=25`,
+    ).then((r) => r.data.children).catch(() => []);
+
     if (commentId) {
-      const listing = await redditFetch<[RedditListing, RedditCommentListing]>(
-        `/r/${subreddit}/comments/${postId}/_/${commentId}.json?sort=new&limit=50`,
-      );
+      const [listing] = await Promise.all([
+        redditFetch<[RedditListing, RedditCommentListing]>(
+          `/r/${subreddit}/comments/${postId}/_/${commentId}.json?sort=new&limit=50`,
+        ),
+        userCommentsPromise.then((c) => { userRecentComments = c; }),
+      ]);
 
       const commentNode = listing[1]?.data?.children[0];
       if (!commentNode || commentNode.kind !== "t1")
@@ -135,9 +146,12 @@ export const POST = async (request: NextRequest) => {
         postComments = replies.data.children;
       }
     } else {
-      const listing = await redditFetch<[RedditListing, RedditCommentListing]>(
-        `/r/${subreddit}/comments/${postId}.json?sort=new&limit=50`,
-      );
+      const [listing] = await Promise.all([
+        redditFetch<[RedditListing, RedditCommentListing]>(
+          `/r/${subreddit}/comments/${postId}.json?sort=new&limit=50`,
+        ),
+        userCommentsPromise.then((c) => { userRecentComments = c; }),
+      ]);
 
       const postData = listing[0]?.data?.children[0]?.data;
       if (!postData) throw new Error("Could not read post data");
@@ -184,16 +198,31 @@ export const POST = async (request: NextRequest) => {
   }
 
   // --- Auto-detect what the user did ---
+  console.log("[verify] upvote check — submissionId:", submissionId, "| commentId:", commentId ?? "none (post)");
+  console.log("[verify] upvote check — storedMetrics.upvotes:", storedMetrics.upvotes, "| freshScore:", freshScore, "| needed:", storedMetrics.upvotes + 1);
+  console.log("[verify] upvote check — canCheckUpvote:", canCheckUpvote, "| condition (freshScore >= stored+1):", freshScore >= storedMetrics.upvotes + 1);
+
   const upvoteDetected =
     canCheckUpvote && freshScore >= storedMetrics.upvotes + 1;
 
-  const commentDetected =
-    canCheckComment &&
-    postComments.some(
-      (c) =>
-        c.kind === "t1" &&
-        c.data.author.toLowerCase() === redditAccount.username.toLowerCase(),
-    );
+  // Check post listing first, then fall back to user's recent comment history
+  // (which reflects new comments faster than the post's comment thread).
+  const commentInPostListing = postComments.some(
+    (c) =>
+      c.kind === "t1" &&
+      c.data.author.toLowerCase() === redditAccount.username.toLowerCase(),
+  );
+  const commentInUserHistory = userRecentComments.some(
+    (c) =>
+      c.kind === "t1" &&
+      c.data.link_id === `t3_${postId}` &&
+      c.data.author.toLowerCase() === redditAccount.username.toLowerCase(),
+  );
+  const commentDetected = canCheckComment && (commentInPostListing || commentInUserHistory);
+
+  console.log("[verify] upvoteDetected:", upvoteDetected, "| commentDetected:", commentDetected);
+  console.log("[verify] postComments authors:", postComments.filter(c => c.kind === "t1").map(c => c.data.author));
+  console.log("[verify] userRecentComments on this post:", userRecentComments.filter(c => c.kind === "t1" && c.data.link_id === `t3_${postId}`).map(c => c.data.author));
 
   if (!upvoteDetected && !commentDetected) {
     const hint = !canCheckUpvote

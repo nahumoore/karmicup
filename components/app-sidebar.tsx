@@ -22,6 +22,7 @@ import {
   IconCoin,
   IconCompass,
   IconNotes,
+  IconSettings,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -37,6 +38,14 @@ const navItems = [
     title: "My Submissions",
     url: "/dashboard/my-submissions",
     icon: IconNotes,
+  },
+];
+
+const footerNavItems = [
+  {
+    title: "Settings",
+    url: "/dashboard/settings",
+    icon: IconSettings,
   },
 ];
 
@@ -130,6 +139,24 @@ export function AppSidebar({
         </SidebarGroup>
       </SidebarContent>
 
+      <SidebarGroup>
+        <SidebarMenu>
+          {footerNavItems.map((item) => (
+            <SidebarMenuItem key={item.title}>
+              <SidebarMenuButton
+                asChild
+                tooltip={item.title}
+                isActive={pathname.startsWith(item.url)}
+              >
+                <Link href={item.url}>
+                  <item.icon />
+                  <span>{item.title}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarGroup>
       <SidebarFooter>
         <NavUser
           user={{
