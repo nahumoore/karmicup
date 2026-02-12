@@ -55,6 +55,11 @@ export const PAGE_SEO = {
     description:
       "Review Karmicup's community rules, points system policy, and acceptable use terms. Understand the platform before you sign up.",
   },
+  about: {
+    title: 'About',
+    description:
+      'Meet Nico, the founder of Karmicup. A Reddit marketing expert who built a free engagement community after getting tired of paying for the first upvotes.',
+  },
 } satisfies Record<string, { title: string; description: string }>
 
 /**

@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   IconArrowRight,
   IconBolt,
@@ -9,7 +8,7 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
-import { useState } from "react";
+import Link from "next/link";
 
 const trustPoints = [
   { icon: IconShieldCheck, label: "No credit card required" },
@@ -18,8 +17,6 @@ const trustPoints = [
 ];
 
 export function FinalCTA() {
-  const [email, setEmail] = useState("");
-
   return (
     <section className="bg-background py-28 md:py-40 relative overflow-hidden">
       {/* Subtle orange background wash */}
@@ -48,7 +45,7 @@ export function FinalCTA() {
             <span className="text-primary">Reddit presence.</span>
           </h2>
           <p className="text-muted-foreground text-lg mb-10 max-w-lg mx-auto leading-relaxed">
-            Join over 12,000 Reddit creators getting authentic engagement every
+            Join thousands of Reddit creators getting authentic engagement every
             day. It takes less than a minute to get started.
           </p>
         </motion.div>
@@ -58,19 +55,19 @@ export function FinalCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto mb-8"
+          className="flex justify-center gap-3 max-w-sm mx-auto mb-8"
         >
-          <Input
-            type="email"
-            placeholder="your@email.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="h-12 flex-1"
-          />
-          <Button className="h-12 px-6 font-semibold gap-2 shrink-0">
-            Join for free
-            <IconArrowRight size={15} />
-          </Button>
+          <Link
+            href="/register"
+            className="group hover:scale-105 transition-transform duration-200"
+          >
+            <Button className="h-12 px-6 font-semibold gap-2 shrink-0 w-full">
+              Get Upvotes & Comments
+              <span className="inline-flex group-hover:translate-x-1 transition-transform duration-200">
+                <IconArrowRight size={15} />
+              </span>
+            </Button>
+          </Link>
         </motion.div>
 
         <motion.ul

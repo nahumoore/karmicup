@@ -1,18 +1,18 @@
-'use client'
+"use client";
 
-import { motion } from 'motion/react'
-import Link from 'next/link'
-import { IconArrowBigUp, IconBrandReddit, IconBrandX } from '@tabler/icons-react'
+import { IconArrowBigUp } from "@tabler/icons-react";
+import { motion } from "motion/react";
+import Link from "next/link";
 
 const footerLinks = [
-  { label: 'How it works', href: '#how-it-works' },
-  { label: 'Privacy', href: '/privacy' },
-  { label: 'Terms', href: '/terms' },
-  { label: 'Contact', href: '/contact' },
-]
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "About", href: "/about" },
+];
 
 export function Footer() {
-  const year = new Date().getFullYear()
+  const year = new Date().getFullYear();
 
   return (
     <motion.footer
@@ -49,24 +49,6 @@ export function Footer() {
               ))}
             </ul>
           </nav>
-
-          {/* Social */}
-          <div className="flex items-center gap-3">
-            <a
-              href="#"
-              aria-label="Reddit"
-              className="text-muted-foreground hover:text-foreground transition-colors duration-200"
-            >
-              <IconBrandReddit size={20} stroke={1.5} />
-            </a>
-            <a
-              href="#"
-              aria-label="X / Twitter"
-              className="text-muted-foreground hover:text-foreground transition-colors duration-200"
-            >
-              <IconBrandX size={18} stroke={1.5} />
-            </a>
-          </div>
         </div>
 
         <div className="mt-8 pt-6 border-t border-border text-center">
@@ -76,5 +58,5 @@ export function Footer() {
         </div>
       </div>
     </motion.footer>
-  )
+  );
 }

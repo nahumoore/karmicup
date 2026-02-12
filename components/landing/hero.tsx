@@ -11,6 +11,7 @@ import {
   IconShare3,
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
+import Link from "next/link";
 import { SparklesText } from "../ui/sparkles-text";
 
 const stats = [
@@ -175,15 +176,17 @@ export function Hero() {
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 className="shrink-0"
               >
-                <Button
-                  size="lg"
-                  className="h-11 px-5 font-semibold gap-2 text-lg group w-full"
-                >
-                  Start getting upvotes
-                  <span className="inline-flex group-hover:translate-x-1 transition-transform duration-200">
-                    <IconArrowRight size={15} />
-                  </span>
-                </Button>
+                <Link href="/register" className="w-full">
+                  <Button
+                    size="lg"
+                    className="h-11 px-5 font-semibold gap-2 text-lg group w-full"
+                  >
+                    Start getting upvotes
+                    <span className="inline-flex group-hover:translate-x-1 transition-transform duration-200">
+                      <IconArrowRight size={15} />
+                    </span>
+                  </Button>
+                </Link>
               </motion.div>
             </motion.div>
 
