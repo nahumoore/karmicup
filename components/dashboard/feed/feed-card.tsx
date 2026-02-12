@@ -18,11 +18,11 @@ import type { Interaction } from "./help-dialog";
 interface FeedCardProps {
   post: FeedSubmission;
   index: number;
-  done: Interaction | undefined;
+  existingInteraction: Interaction | undefined;
   onHelp: (id: string) => void;
 }
 
-export function FeedCard({ post, index, done, onHelp }: FeedCardProps) {
+export function FeedCard({ post, index, existingInteraction, onHelp }: FeedCardProps) {
   const author = post.reddit_accounts?.username
     ? `u/${post.reddit_accounts.username}`
     : "a member";
@@ -38,7 +38,7 @@ export function FeedCard({ post, index, done, onHelp }: FeedCardProps) {
       }}
       className={cn(
         "bg-white rounded-2xl border transition-all duration-300 overflow-hidden",
-        done
+        existingInteraction
           ? "border-primary/25 shadow-sm shadow-primary/5"
           : "border-stone-200 hover:border-stone-300 hover:shadow-sm",
       )}
@@ -93,7 +93,7 @@ export function FeedCard({ post, index, done, onHelp }: FeedCardProps) {
       <div
         className={cn(
           "px-4 py-2.5 flex items-center gap-2 border-t",
-          done
+          existingInteraction
             ? "bg-primary/[0.03] border-primary/10"
             : "bg-stone-50/60 border-stone-100",
         )}
@@ -108,23 +108,23 @@ export function FeedCard({ post, index, done, onHelp }: FeedCardProps) {
           Open on Reddit
         </a>
 
-        {done ? (
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-primary">
-            <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
-              <IconCheck className="w-3 h-3" stroke={3} />
+        {existingInteraction && (
+          <div className="flex items-center gap-1 text-xs font-semibold text-primary">
+            <div className="w-4 h-4 rounded-full bg-primary/10 flex items-center justify-center">
+              <IconCheck className="w-2.5 h-2.5" stroke={3} />
             </div>
-            <IconCoin className="w-3.5 h-3.5" />+
-            {done === "comment" ? "5" : done === "both" ? "6" : "1"} pts earned
+            <IconCoin className="w-3.5 h-3.5" />
+            +{existingInteraction === "comment" ? "5" : "1"} pts
           </div>
-        ) : (
-          <button
-            onClick={() => onHelp(post.id)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 transition-all shadow-sm shadow-primary/25"
-          >
-            <IconHeart className="w-3.5 h-3.5" />
-            Help {author}
-          </button>
         )}
+
+        <button
+          onClick={() => onHelp(post.id)}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 transition-all shadow-sm shadow-primary/25"
+        >
+          <IconHeart className="w-3.5 h-3.5" />
+          {existingInteraction ? "Help more" : `Help ${author}`}
+        </button>
       </div>
     </motion.article>
   );

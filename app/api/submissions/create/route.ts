@@ -12,6 +12,8 @@ const REDDIT_URL_REGEX =
 type RedditPostData = {
   title: string;
   subreddit: string;
+  score: number;
+  num_comments: number;
 };
 
 type RedditListing = {
@@ -82,6 +84,7 @@ export const POST = async (request: NextRequest) => {
 
   // Verify the post exists on Reddit and grab its title
   let title: string;
+  let redditMetrics: { upvotes: number; comments: number } = { upvotes: 0, comments: 0 };
   try {
     const listing = await redditFetch<[RedditListing, unknown]>(
       `/r/${subreddit}/comments/${postId}.json?limit=1`,
@@ -89,6 +92,7 @@ export const POST = async (request: NextRequest) => {
     const postData = listing[0]?.data?.children[0]?.data;
     if (!postData?.title) throw new Error("Could not read post data");
     title = postData.title;
+    redditMetrics = { upvotes: postData.score ?? 0, comments: postData.num_comments ?? 0 };
   } catch (err) {
     if (err instanceof RedditApiError && err.status === 404) {
       return NextResponse.json(
@@ -132,9 +136,10 @@ export const POST = async (request: NextRequest) => {
       title,
       reddit_url: url,
       context: context?.trim() || null,
+      reddit_metrics: redditMetrics,
     })
     .select(
-      "id, user_id, reddit_account_id, type, subreddit, title, reddit_url, context, upvotes_received, comments_received, status, created_at",
+      "id, user_id, reddit_account_id, type, subreddit, title, reddit_url, context, upvotes_received, comments_received, status, reddit_metrics, created_at",
     )
     .single();
 

@@ -7,33 +7,53 @@ import {
   type Interaction,
 } from "@/components/dashboard/feed/help-dialog";
 import { useFeedSubmissions, type FeedSubmission } from "@/hooks/use-feed-submissions";
+import { useUserInfo } from "@/hooks/use-user-info";
 import { IconBrandReddit } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
 interface CommunityFeedClientPageProps {
   submissions: FeedSubmission[];
+  interactions: Record<string, Interaction>;
 }
 
 export default function CommunityFeedClientPage({
   submissions,
+  interactions,
 }: CommunityFeedClientPageProps) {
   const { setFeedSubmissions, feedSubmissions } = useFeedSubmissions();
-  const [interacted, setInteracted] = useState<Record<string, Interaction>>({});
+  const { setUserInfoData, data: userInfo } = useUserInfo();
+  const [interacted, setInteracted] = useState<Record<string, Interaction>>(interactions);
   const [dialog, setDialog] = useState<DialogState | null>(null);
   const [verifying, setVerifying] = useState(false);
+  const [verifyError, setVerifyError] = useState<string | null>(null);
 
   useEffect(() => {
     setFeedSubmissions(submissions);
   }, [submissions, setFeedSubmissions]);
 
   const activePost = feedSubmissions.find((p) => p.id === dialog?.postId);
+  const visibleSubmissions = feedSubmissions.filter((p) => interacted[p.id] !== "both");
 
   const handleVerify = async () => {
     if (!dialog) return;
     setVerifying(true);
+    setVerifyError(null);
     try {
-      await fetch("/api/submissions/verify", { method: "POST" });
-      setInteracted((prev) => ({ ...prev, [dialog.postId]: dialog.type }));
+      const res = await fetch("/api/submissions/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          submissionId: dialog.postId,
+          interaction: dialog.type,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setVerifyError(data.error ?? "Verification failed. Please try again.");
+        return;
+      }
+      setUserInfoData({ ...userInfo, points: data.points });
+      setInteracted((prev) => ({ ...prev, [dialog.postId]: data.interaction as Interaction }));
       setDialog(null);
     } finally {
       setVerifying(false);
@@ -51,7 +71,7 @@ export default function CommunityFeedClientPage({
         </p>
       </header>
 
-      {feedSubmissions.length === 0 && (
+      {visibleSubmissions.length === 0 && (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <div className="w-12 h-12 rounded-2xl bg-stone-100 flex items-center justify-center mb-3">
             <IconBrandReddit className="w-6 h-6 text-stone-400" />
@@ -67,13 +87,17 @@ export default function CommunityFeedClientPage({
       )}
 
       <section className="space-y-3">
-        {feedSubmissions.map((post, i) => (
+        {visibleSubmissions.map((post, i) => (
           <FeedCard
             key={post.id}
             post={post}
             index={i}
-            done={interacted[post.id]}
-            onHelp={(id) => setDialog({ postId: id, type: "comment" })}
+            existingInteraction={interacted[post.id]}
+            onHelp={(id) => {
+              const existing = interacted[id];
+              const defaultType: Interaction = existing === "comment" ? "upvote" : "comment";
+              setDialog({ postId: id, type: defaultType });
+            }}
           />
         ))}
       </section>
@@ -82,9 +106,11 @@ export default function CommunityFeedClientPage({
         dialog={dialog}
         post={activePost}
         verifying={verifying}
+        error={verifyError}
+        existingInteraction={dialog ? interacted[dialog.postId] : undefined}
         onVerify={handleVerify}
-        onClose={() => setDialog(null)}
-        onTypeChange={(type) => dialog && setDialog({ ...dialog, type })}
+        onClose={() => { setDialog(null); setVerifyError(null); }}
+        onTypeChange={(type) => { if (dialog) { setDialog({ ...dialog, type }); setVerifyError(null); } }}
       />
     </div>
   );

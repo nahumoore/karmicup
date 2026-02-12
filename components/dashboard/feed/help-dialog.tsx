@@ -10,6 +10,7 @@ import {
 import type { FeedSubmission } from "@/hooks/use-feed-submissions";
 import { cn } from "@/lib/utils";
 import {
+  IconAlertCircle,
   IconArrowBigUp,
   IconBrandReddit,
   IconCheck,
@@ -44,6 +45,8 @@ interface HelpDialogProps {
   dialog: DialogState | null;
   post: FeedSubmission | undefined;
   verifying: boolean;
+  error?: string | null;
+  existingInteraction?: Interaction;
   onVerify: () => void;
   onClose: () => void;
   onTypeChange: (type: Interaction) => void;
@@ -53,6 +56,8 @@ export function HelpDialog({
   dialog,
   post,
   verifying,
+  error,
+  existingInteraction,
   onVerify,
   onClose,
   onTypeChange,
@@ -60,6 +65,12 @@ export function HelpDialog({
   const author = post?.reddit_accounts?.username
     ? `u/${post.reddit_accounts.username}`
     : "this member";
+
+  const availableOptions = INTERACTION_OPTIONS.filter(({ type }) => {
+    if (existingInteraction === "upvote") return type === "comment";
+    if (existingInteraction === "comment") return type === "upvote";
+    return true;
+  });
 
   const steps =
     dialog?.type === "upvote"
@@ -150,7 +161,7 @@ export function HelpDialog({
               How do you want to help?
             </p>
             <div className="grid grid-cols-3 gap-2">
-              {INTERACTION_OPTIONS.map(({ type, label, pts, Icon }) => {
+              {availableOptions.map(({ type, label, pts, Icon }) => {
                 const isSelected = dialog?.type === type;
                 return (
                   <button
@@ -230,6 +241,13 @@ export function HelpDialog({
             ))}
           </div>
         </div>
+
+        {error && (
+          <div className="flex items-start gap-2 p-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700">
+            <IconAlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-500" />
+            <span>{error}</span>
+          </div>
+        )}
 
         <DialogFooter>
           <button

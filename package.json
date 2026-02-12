@@ -8,7 +8,7 @@
     "start": "next start",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "secrets:push": "node -e \"const e=require('fs').readFileSync('.env.local','utf8');const o={};e.split('\\n').forEach(l=>{const i=l.indexOf('=');if(i>0&&!l.startsWith('#')){o[l.slice(0,i).trim()]=l.slice(i+1).trim()}});require('fs').writeFileSync('.env.json',JSON.stringify(o))\" && pnpm wrangler secret bulk .env.json && rm .env.json"
   },
   "dependencies": {
     "@base-ui/react": "^1.1.0",
