@@ -1,4 +1,4 @@
-import { SUBMIT_COST } from "@/lib/consts";
+import { SUBMIT_COST } from "@/consts/submission-cost";
 import { RedditApiError, redditFetch } from "@/lib/helpers/reddit";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { supabaseServer } from "@/lib/supabase/server";
@@ -47,7 +47,10 @@ export const POST = async (request: NextRequest) => {
   const match = url.match(REDDIT_URL_REGEX);
   if (!match) {
     return NextResponse.json(
-      { error: "Invalid Reddit URL. Must link to a post or comment on reddit.com." },
+      {
+        error:
+          "Invalid Reddit URL. Must link to a post or comment on reddit.com.",
+      },
       { status: 400 },
     );
   }
@@ -84,7 +87,10 @@ export const POST = async (request: NextRequest) => {
 
   // Verify the post exists on Reddit and grab its title
   let title: string;
-  let redditMetrics: { upvotes: number; comments: number } = { upvotes: 0, comments: 0 };
+  let redditMetrics: { upvotes: number; comments: number } = {
+    upvotes: 0,
+    comments: 0,
+  };
   try {
     const listing = await redditFetch<[RedditListing, unknown]>(
       `/r/${subreddit}/comments/${postId}.json?limit=1`,
@@ -92,7 +98,10 @@ export const POST = async (request: NextRequest) => {
     const postData = listing[0]?.data?.children[0]?.data;
     if (!postData?.title) throw new Error("Could not read post data");
     title = postData.title;
-    redditMetrics = { upvotes: postData.score ?? 0, comments: postData.num_comments ?? 0 };
+    redditMetrics = {
+      upvotes: postData.score ?? 0,
+      comments: postData.num_comments ?? 0,
+    };
   } catch (err) {
     if (err instanceof RedditApiError && err.status === 404) {
       return NextResponse.json(

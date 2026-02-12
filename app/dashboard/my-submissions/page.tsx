@@ -1,6 +1,18 @@
+import type { Metadata } from "next";
+import { PAGE_SEO } from "@/consts/seo-metadata";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { supabaseServer } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: PAGE_SEO.mySubmissions.title,
+  description: PAGE_SEO.mySubmissions.description,
+  openGraph: {
+    title: PAGE_SEO.mySubmissions.title,
+    description: PAGE_SEO.mySubmissions.description,
+  },
+  robots: { index: false, follow: false },
+};
 import MySubmissionsClientPage from "./client-page";
 import type { Submission } from "@/hooks/use-submissions";
 

@@ -1,26 +1,26 @@
-'use client'
+"use client";
 
-import { motion } from 'motion/react'
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { IconArrowBigUp } from '@tabler/icons-react'
-import { cn } from '@/lib/utils'
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { IconArrowBigUpFilled } from "@tabler/icons-react";
+import { motion } from "motion/react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const navLinks = [
-  { label: 'How it works', href: '#how-it-works' },
-  { label: 'Community', href: '#community' },
-  { label: 'FAQ', href: '#faq' },
-]
+  { label: "How it works", href: "#how-it-works" },
+  { label: "Community", href: "#community" },
+  { label: "FAQ", href: "#faq" },
+];
 
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <motion.header
@@ -28,16 +28,16 @@ export function Navbar() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'fixed top-0 inset-x-0 z-50 transition-all duration-500',
+        "fixed top-0 inset-x-0 z-50 transition-all duration-500",
         scrolled
-          ? 'bg-background/90 backdrop-blur-xl border-b border-border shadow-sm'
-          : 'bg-transparent'
+          ? "bg-background/90 backdrop-blur-xl border-b border-border shadow-sm"
+          : "bg-transparent",
       )}
     >
       <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5 group">
           <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary text-primary-foreground group-hover:scale-105 transition-transform duration-200">
-            <IconArrowBigUp size={17} stroke={2.5} />
+            <IconArrowBigUpFilled size={17} stroke={2.5} />
           </span>
           <span className="text-lg font-bold text-foreground tracking-tight">
             karmic<span className="text-primary">up</span>
@@ -70,5 +70,5 @@ export function Navbar() {
         </div>
       </nav>
     </motion.header>
-  )
+  );
 }

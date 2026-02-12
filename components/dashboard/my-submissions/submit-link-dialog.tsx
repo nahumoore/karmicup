@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { SUBMIT_COST } from "@/consts/submission-cost";
 import { useSubmissions } from "@/hooks/use-submissions";
 import { useUserInfo } from "@/hooks/use-user-info";
-import { SUBMIT_COST } from "@/lib/consts";
 import { cn } from "@/lib/utils";
 import {
   IconAlertCircle,

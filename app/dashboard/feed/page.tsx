@@ -1,6 +1,18 @@
+import type { Metadata } from "next";
+import { PAGE_SEO } from "@/consts/seo-metadata";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { supabaseServer } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: PAGE_SEO.feed.title,
+  description: PAGE_SEO.feed.description,
+  openGraph: {
+    title: PAGE_SEO.feed.title,
+    description: PAGE_SEO.feed.description,
+  },
+  robots: { index: false, follow: false },
+};
 import CommunityFeedClientPage from "./client-page";
 import type { FeedSubmission } from "@/hooks/use-feed-submissions";
 import type { Interaction } from "@/components/dashboard/feed/help-dialog";
