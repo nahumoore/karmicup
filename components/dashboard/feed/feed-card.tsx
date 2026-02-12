@@ -9,7 +9,7 @@ import {
   IconCoin,
   IconExternalLink,
   IconHeart,
-  IconInfoCircle,
+  IconNotes,
 } from "@tabler/icons-react";
 import { formatDistanceToNow } from "date-fns";
 import { motion } from "motion/react";
@@ -22,7 +22,12 @@ interface FeedCardProps {
   onHelp: (id: string) => void;
 }
 
-export function FeedCard({ post, index, existingInteraction, onHelp }: FeedCardProps) {
+export function FeedCard({
+  post,
+  index,
+  existingInteraction,
+  onHelp,
+}: FeedCardProps) {
   const author = post.reddit_accounts?.username
     ? `u/${post.reddit_accounts.username}`
     : "a member";
@@ -76,17 +81,15 @@ export function FeedCard({ post, index, existingInteraction, onHelp }: FeedCardP
 
         {/* Context */}
         {post.context && (
-          <div className="flex items-start gap-1.5 mt-2.5 p-2.5 rounded-lg bg-amber-50 border border-amber-100">
-            <IconInfoCircle className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
-            <p className="text-xs text-amber-700 leading-relaxed line-clamp-2">
+          <div className="flex items-start gap-2 mt-2.5 p-2.5 rounded-lg bg-stone-50 border border-stone-200/80">
+            <div className="shrink-0 mt-0.5 w-4 h-4 rounded bg-stone-200 flex items-center justify-center">
+              <IconNotes className="w-2.5 h-2.5 text-stone-500" />
+            </div>
+            <p className="text-xs text-stone-500 leading-relaxed line-clamp-2">
               {post.context}
             </p>
           </div>
         )}
-
-        <p className="text-xs text-stone-400 mt-2">
-          by <span className="font-medium text-stone-500">{author}</span>
-        </p>
       </div>
 
       {/* Action bar */}
@@ -113,8 +116,8 @@ export function FeedCard({ post, index, existingInteraction, onHelp }: FeedCardP
             <div className="w-4 h-4 rounded-full bg-primary/10 flex items-center justify-center">
               <IconCheck className="w-2.5 h-2.5" stroke={3} />
             </div>
-            <IconCoin className="w-3.5 h-3.5" />
-            +{existingInteraction === "comment" ? "5" : "1"} pts
+            <IconCoin className="w-3.5 h-3.5" />+
+            {existingInteraction === "comment" ? "5" : "1"} pts
           </div>
         )}
 
@@ -122,8 +125,8 @@ export function FeedCard({ post, index, existingInteraction, onHelp }: FeedCardP
           onClick={() => onHelp(post.id)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 transition-all shadow-sm shadow-primary/25"
         >
+          {existingInteraction ? "Help more" : `Help and win points`}
           <IconHeart className="w-3.5 h-3.5" />
-          {existingInteraction ? "Help more" : `Help ${author}`}
         </button>
       </div>
     </motion.article>

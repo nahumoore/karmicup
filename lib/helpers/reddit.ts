@@ -34,7 +34,14 @@ export async function redditFetch<T = unknown>(
     let response: Response;
 
     try {
-      response = await fetch(url, { ...options, headers });
+      response = await fetch(url, {
+        ...options,
+        headers,
+        cache: "no-store",
+        // Cloudflare Workers: bypass subrequest cache so Reddit always returns fresh data
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        cf: { cacheTtl: 0, cacheEverything: false },
+      } as RequestInit);
     } catch (networkError) {
       lastError = networkError instanceof Error
         ? networkError

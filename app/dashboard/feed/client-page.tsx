@@ -5,6 +5,7 @@ import {
   HelpDialog,
   type DialogState,
   type Interaction,
+  type VerifyResult,
 } from "@/components/dashboard/feed/help-dialog";
 import { useFeedSubmissions, type FeedSubmission } from "@/hooks/use-feed-submissions";
 import { useUserInfo } from "@/hooks/use-user-info";
@@ -26,6 +27,7 @@ export default function CommunityFeedClientPage({
   const [dialog, setDialog] = useState<DialogState | null>(null);
   const [verifying, setVerifying] = useState(false);
   const [verifyError, setVerifyError] = useState<string | null>(null);
+  const [verifyResult, setVerifyResult] = useState<VerifyResult | null>(null);
 
   useEffect(() => {
     setFeedSubmissions(submissions);
@@ -42,10 +44,7 @@ export default function CommunityFeedClientPage({
       const res = await fetch("/api/submissions/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          submissionId: dialog.postId,
-          interaction: dialog.type,
-        }),
+        body: JSON.stringify({ submissionId: dialog.postId }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -54,10 +53,20 @@ export default function CommunityFeedClientPage({
       }
       setUserInfoData({ ...userInfo, points: data.points });
       setInteracted((prev) => ({ ...prev, [dialog.postId]: data.interaction as Interaction }));
-      setDialog(null);
+      setVerifyResult({
+        detected: data.detected as Interaction,
+        pointsEarned: data.pointsEarned as number,
+        totalPoints: data.points as number,
+      });
     } finally {
       setVerifying(false);
     }
+  };
+
+  const handleClose = () => {
+    setDialog(null);
+    setVerifyError(null);
+    setVerifyResult(null);
   };
 
   return (
@@ -94,9 +103,9 @@ export default function CommunityFeedClientPage({
             index={i}
             existingInteraction={interacted[post.id]}
             onHelp={(id) => {
-              const existing = interacted[id];
-              const defaultType: Interaction = existing === "comment" ? "upvote" : "comment";
-              setDialog({ postId: id, type: defaultType });
+              setVerifyResult(null);
+              setVerifyError(null);
+              setDialog({ postId: id });
             }}
           />
         ))}
@@ -108,9 +117,9 @@ export default function CommunityFeedClientPage({
         verifying={verifying}
         error={verifyError}
         existingInteraction={dialog ? interacted[dialog.postId] : undefined}
+        verifyResult={verifyResult}
         onVerify={handleVerify}
-        onClose={() => { setDialog(null); setVerifyError(null); }}
-        onTypeChange={(type) => { if (dialog) { setDialog({ ...dialog, type }); setVerifyError(null); } }}
+        onClose={handleClose}
       />
     </div>
   );

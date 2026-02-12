@@ -15,7 +15,7 @@ const REDDIT_URL_REGEX =
   /^https?:\/\/(?:www\.|old\.)?reddit\.com\/r\/([^/]+)\/comments\/([a-z0-9]+)/i;
 
 type RedditPostData = {
-  score: number;
+  ups: number;
   num_comments: number;
 };
 
@@ -38,21 +38,11 @@ type RedditCommentListing = {
 
 export const POST = async (request: NextRequest) => {
   const body = await request.json();
-  const { submissionId, interaction } = body as {
-    submissionId?: string;
-    interaction?: string;
-  };
+  const { submissionId } = body as { submissionId?: string };
 
-  if (!submissionId || !interaction) {
+  if (!submissionId) {
     return NextResponse.json(
-      { error: "submissionId and interaction are required" },
-      { status: 400 },
-    );
-  }
-
-  if (!["upvote", "comment", "both"].includes(interaction)) {
-    return NextResponse.json(
-      { error: "interaction must be 'upvote', 'comment', or 'both'" },
+      { error: "submissionId is required" },
       { status: 400 },
     );
   }
@@ -117,20 +107,22 @@ export const POST = async (request: NextRequest) => {
 
   const subreddit = match[1];
   const postId = match[2];
-  const interactionType = interaction as Interaction;
 
-  // Fetch fresh Reddit post data (needed for upvote check and metrics refresh)
+  // Fetch fresh post data + newest comments in a single request
   let freshScore: number;
   let freshCommentCount: number;
+  let postComments: Array<{ kind: string; data: RedditCommentData }> = [];
 
   try {
-    const listing = await redditFetch<[RedditListing, unknown]>(
-      `/r/${subreddit}/comments/${postId}.json?limit=1`,
+    const listing = await redditFetch<[RedditListing, RedditCommentListing]>(
+      `/r/${subreddit}/comments/${postId}.json?sort=new&limit=50`,
     );
+
     const postData = listing[0]?.data?.children[0]?.data;
     if (!postData) throw new Error("Could not read post data");
-    freshScore = postData.score;
+    freshScore = postData.ups;
     freshCommentCount = postData.num_comments;
+    postComments = listing[1]?.data?.children ?? [];
   } catch (err) {
     if (err instanceof RedditApiError && err.status === 404) {
       return NextResponse.json(
@@ -144,75 +136,12 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
-  const storedMetrics = (
-    submission.reddit_metrics as { upvotes: number; comments: number } | null
-  ) ?? { upvotes: 0, comments: 0 };
+  const storedMetrics = (submission.reddit_metrics as {
+    upvotes: number;
+    comments: number;
+  } | null) ?? { upvotes: 0, comments: 0 };
 
-  // --- Verify upvote ---
-  let upvoteVerified = false;
-  if (interactionType === "upvote" || interactionType === "both") {
-    upvoteVerified = freshScore >= storedMetrics.upvotes + 1;
-  }
-
-  // --- Verify comment ---
-  let commentVerified = false;
-  if (interactionType === "comment" || interactionType === "both") {
-    try {
-      const commentListing = await redditFetch<RedditCommentListing>(
-        `/user/${redditAccount.username}/comments.json?limit=25`,
-      );
-      const comments = commentListing.data?.children ?? [];
-      commentVerified = comments.some(
-        (c) =>
-          c.data.link_id === `t3_${postId}` &&
-          c.data.author.toLowerCase() ===
-            redditAccount.username.toLowerCase(),
-      );
-    } catch {
-      return NextResponse.json(
-        { error: "Could not verify comment. Please try again." },
-        { status: 502 },
-      );
-    }
-  }
-
-  // --- Check results ---
-  if (interactionType === "upvote" && !upvoteVerified) {
-    return NextResponse.json(
-      {
-        error:
-          "Upvote not detected. Please upvote the post on Reddit and try again.",
-      },
-      { status: 400 },
-    );
-  }
-
-  if (interactionType === "comment" && !commentVerified) {
-    return NextResponse.json(
-      {
-        error:
-          "Comment not detected. Please leave a comment on the post and try again.",
-      },
-      { status: 400 },
-    );
-  }
-
-  if (interactionType === "both" && (!upvoteVerified || !commentVerified)) {
-    const missing =
-      !upvoteVerified && !commentVerified
-        ? "upvote and comment"
-        : !upvoteVerified
-          ? "upvote"
-          : "comment";
-    return NextResponse.json(
-      {
-        error: `Could not verify your ${missing}. Both actions are required to earn 6 points.`,
-      },
-      { status: 400 },
-    );
-  }
-
-  // --- Check for duplicate interaction ---
+  // --- Check existing interaction to know what's still uncredited ---
   const { data: existingInteractionRecord } = await supabaseAdmin
     .from("user_submission_interactions")
     .select("id, interaction")
@@ -220,24 +149,53 @@ export const POST = async (request: NextRequest) => {
     .eq("submission_id", submissionId)
     .maybeSingle();
 
-  if (existingInteractionRecord) {
-    const existing = existingInteractionRecord.interaction as Interaction;
-    const alreadyUpvoted = existing === "upvote" || existing === "both";
-    const alreadyCommented = existing === "comment" || existing === "both";
-    const wantsUpvote = interactionType === "upvote" || interactionType === "both";
-    const wantsComment = interactionType === "comment" || interactionType === "both";
+  const existingType = existingInteractionRecord?.interaction as Interaction | undefined;
 
-    if ((wantsUpvote && alreadyUpvoted) || (wantsComment && alreadyCommented)) {
-      return NextResponse.json(
-        { error: "You have already performed this action on this submission." },
-        { status: 400 },
-      );
-    }
+  const canCheckUpvote = existingType !== "upvote" && existingType !== "both";
+  const canCheckComment = existingType !== "comment" && existingType !== "both";
+
+  if (!canCheckUpvote && !canCheckComment) {
+    return NextResponse.json(
+      { error: "You have already performed both actions on this submission." },
+      { status: 400 },
+    );
   }
 
-  // --- All verified — update DB ---
-  const pointsToAdd = POINTS[interactionType];
+  // --- Auto-detect what the user did ---
+  const upvoteDetected =
+    canCheckUpvote && freshScore >= storedMetrics.upvotes + 1;
 
+  const commentDetected =
+    canCheckComment &&
+    postComments.some(
+      (c) =>
+        c.kind === "t1" &&
+        c.data.author.toLowerCase() === redditAccount.username.toLowerCase(),
+    );
+
+  if (!upvoteDetected && !commentDetected) {
+    const hint = !canCheckUpvote
+      ? "Leave a comment on the post and try again."
+      : !canCheckComment
+        ? "Upvote the post and try again."
+        : "Upvote and/or comment on the post and try again.";
+    return NextResponse.json(
+      { error: `No new interaction detected. ${hint}` },
+      { status: 400 },
+    );
+  }
+
+  // --- Determine detected interaction type and points ---
+  const detectedInteraction: Interaction =
+    upvoteDetected && commentDetected
+      ? "both"
+      : upvoteDetected
+        ? "upvote"
+        : "comment";
+
+  const pointsToAdd = POINTS[detectedInteraction];
+
+  // --- Award points ---
   const { data: userInfo } = await supabaseAdmin
     .from("user_info")
     .select("points")
@@ -260,15 +218,16 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
+  // --- Update submission metrics ---
   const submissionUpdate: Record<string, unknown> = {
     reddit_metrics: { upvotes: freshScore, comments: freshCommentCount },
   };
 
-  if (interactionType === "upvote" || interactionType === "both") {
+  if (upvoteDetected) {
     submissionUpdate.upvotes_received =
       (submission.upvotes_received as number) + 1;
   }
-  if (interactionType === "comment" || interactionType === "both") {
+  if (commentDetected) {
     submissionUpdate.comments_received =
       (submission.comments_received as number) + 1;
   }
@@ -278,8 +237,10 @@ export const POST = async (request: NextRequest) => {
     .update(submissionUpdate)
     .eq("id", submissionId);
 
-  // Upsert interaction record
-  const newInteraction: Interaction = existingInteractionRecord ? "both" : interactionType;
+  // --- Upsert interaction record ---
+  const finalInteraction: Interaction = existingInteractionRecord
+    ? "both"
+    : detectedInteraction;
 
   if (existingInteractionRecord) {
     await supabaseAdmin
@@ -287,14 +248,18 @@ export const POST = async (request: NextRequest) => {
       .update({ interaction: "both" })
       .eq("id", existingInteractionRecord.id);
   } else {
-    await supabaseAdmin
-      .from("user_submission_interactions")
-      .insert({ user_id: user.id, submission_id: submissionId, interaction: interactionType });
+    await supabaseAdmin.from("user_submission_interactions").insert({
+      user_id: user.id,
+      submission_id: submissionId,
+      interaction: detectedInteraction,
+    });
   }
 
   return NextResponse.json({
     success: true,
     points: userInfo.points + pointsToAdd,
-    interaction: newInteraction,
+    pointsEarned: pointsToAdd,
+    interaction: finalInteraction,
+    detected: detectedInteraction,
   });
 };
