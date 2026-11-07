@@ -83,3 +83,9 @@ Karmicup mirrors **MentioHunt's design system** (https://mentiohunt.com). Keep n
   - No retries on 4xx errors (except 429)
 - Catch `RedditApiError` (also exported from the helper) to handle specific HTTP status codes.
 - Paths can be relative (e.g. `/user/foo/about.json`) or full URLs.
+
+## Paid SEO data tools (DataForSEO)
+
+- **NEVER** call any DataForSEO tool (`mcp__claude_ai_Data_for_SEO__*`) without asking Nicolas for explicit confirmation first. Every call is billed.
+- Before calling, say which endpoint(s) you want to use, for which keywords/domains/locations, and why. Wait for a "yes" for that specific request; an earlier approval does not cover new calls.
+- Free sources need no confirmation: Google Search Console (`gscServer` MCP), the codebase, and the live site.
