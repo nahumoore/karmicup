@@ -1,95 +1,88 @@
-"use client";
-
+import { SectionHeader } from "@/components/landing/section-header";
 import {
   IconArrowsExchange,
   IconGift,
   IconHeartHandshake,
   IconUserCheck,
 } from "@tabler/icons-react";
-import { motion } from "motion/react";
 
 const benefits = [
   {
     icon: IconGift,
-    title: "Always free",
+    label: "No subscriptions",
+    title: "Always free.",
     description:
-      "No subscriptions, no credit cards, no catch. Karmicup runs entirely on a points system — you earn by giving.",
+      "No subscriptions, no credit cards, no catch. Karmicup runs entirely on a points system: you earn by giving.",
   },
   {
     icon: IconUserCheck,
-    title: "Real Reddit accounts",
+    label: "No bots",
+    title: "Real Reddit accounts.",
     description:
-      "Every upvote and comment you receive comes from a genuine Reddit user in the community — never a bot.",
+      "Every upvote and comment you receive comes from a genuine Reddit user in the community, never a bot or a bought account.",
   },
   {
     icon: IconHeartHandshake,
-    title: "Genuine engagement",
+    label: "No paid engagement",
+    title: "Genuine engagement.",
     description:
       "Members engage because they choose to, not because they're paid. That means real opinions and authentic interactions.",
   },
   {
     icon: IconArrowsExchange,
-    title: "Earn as you give",
+    label: "Self-sustaining loop",
+    title: "Earn as you give.",
     description:
-      "Every time you engage with someone else's post you build up points to spend on your own — a self-sustaining loop.",
+      "Every time you engage with someone else's post you build up points to spend on your own. Give a little, get a little.",
   },
 ];
 
 export function Benefits() {
   return (
-    <section id="benefits" className="bg-background py-28 md:py-36">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.header
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
-        >
-          <p className="text-primary text-sm font-bold uppercase tracking-[0.15em] mb-4">
-            Why Karmicup
-          </p>
-          <h2 className="text-4xl md:text-5xl font-black text-foreground leading-tight tracking-tight">
-            Built on real reciprocity
-          </h2>
-          <p className="text-muted-foreground text-lg mt-4 max-w-xl mx-auto">
-            Everything here is designed around one idea: authentic people
-            helping each other grow.
-          </p>
-        </motion.header>
+    <section
+      id="benefits"
+      aria-labelledby="benefits-title"
+      className="px-4 pt-20 sm:px-6 sm:pt-28 lg:pt-32"
+    >
+      <div className="mx-auto max-w-[1120px]">
+        <SectionHeader
+          id="benefits-title"
+          eyebrow="Why Karmicup"
+          title={
+            <>
+              Built on real reciprocity.{" "}
+              <span className="text-muted-foreground">No shortcuts.</span>
+            </>
+          }
+          description="Everything here is designed around one idea: authentic people helping each other get that first bit of traction on Reddit."
+        />
 
-        <dl className="grid sm:grid-cols-2 gap-6">
-          {benefits.map(({ icon: Icon, title, description }, i) => (
-            <motion.div
+        <ul className="mt-14 grid gap-x-16 md:grid-cols-2">
+          {benefits.map(({ icon: Icon, label, title, description }) => (
+            <li
               key={title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{
-                duration: 0.55,
-                delay: i * 0.1,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="flex gap-5 bg-muted/40 rounded-2xl border border-border p-7 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300"
+              className="flex gap-4 border-t border-hairline py-8 sm:py-10"
             >
               <span
                 aria-hidden
-                className="shrink-0 flex items-center justify-center w-11 h-11 rounded-xl bg-primary/10 text-primary mt-0.5"
+                className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand-tint text-primary"
               >
-                <Icon size={22} stroke={1.75} />
+                <Icon size={20} stroke={1.75} />
               </span>
-
-              <div>
-                <dt className="text-base font-bold text-foreground mb-1.5">
+              <div className="flex flex-col gap-2">
+                <span className="text-[13px] font-medium text-muted-foreground">
+                  {label}
+                </span>
+                <h3 className="text-[22px] leading-7 font-semibold tracking-[-0.01em] text-ink">
                   {title}
-                </dt>
-                <dd className="text-sm text-muted-foreground leading-relaxed">
+                </h3>
+                <p className="text-[15px] leading-6 text-pretty text-ink-secondary">
                   {description}
-                </dd>
+                </p>
               </div>
-            </motion.div>
+            </li>
           ))}
-        </dl>
+        </ul>
       </div>
     </section>
   );

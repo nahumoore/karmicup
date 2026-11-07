@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/landing/navbar'
 import { Hero } from '@/components/landing/hero'
+import { StatsBand } from '@/components/landing/stats-band'
 import { Benefits } from '@/components/landing/benefits'
 import { HowItWorks } from '@/components/landing/how-it-works'
 import { FAQ } from '@/components/landing/faq'
@@ -25,9 +26,10 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <main>
+    <main className="relative min-h-screen bg-white text-ink">
       <Navbar />
       <Hero />
+      <StatsBand />
       <Benefits />
       <HowItWorks />
       <FAQ />

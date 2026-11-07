@@ -1,92 +1,111 @@
-"use client";
-
+import { Eyebrow } from "@/components/landing/section-header";
 import { Button } from "@/components/ui/button";
 import {
+  IconArrowBigUpFilled,
   IconArrowRight,
-  IconBolt,
-  IconShieldCheck,
-  IconUsers,
+  IconTrendingUp,
 } from "@tabler/icons-react";
-import { motion } from "motion/react";
 import Link from "next/link";
 
-const trustPoints = [
-  { icon: IconShieldCheck, label: "No credit card required" },
-  { icon: IconUsers, label: "Real users only — no bots" },
-  { icon: IconBolt, label: "Free forever" },
+// Illustrative weekly karma bars (percent of max height).
+const weeklyKarma = [
+  { day: "Mon", value: 22 },
+  { day: "Tue", value: 35 },
+  { day: "Wed", value: 30 },
+  { day: "Thu", value: 52 },
+  { day: "Fri", value: 61 },
+  { day: "Sat", value: 78 },
+  { day: "Sun", value: 100 },
 ];
 
 export function FinalCTA() {
   return (
-    <section className="bg-background py-28 md:py-40 relative overflow-hidden">
-      {/* Subtle orange background wash */}
-      <div
-        aria-hidden
-        className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 120%, oklch(0.646 0.222 41.116 / 0.07) 0%, transparent 70%)",
-        }}
-      />
-
-      <div className="relative z-10 max-w-3xl mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
-        >
-          <p className="text-primary text-sm font-bold uppercase tracking-[0.15em] mb-5">
-            Get started today
-          </p>
-          <h2 className="text-5xl md:text-[60px] font-black text-foreground leading-[0.95] tracking-tight mb-6">
-            Start growing your
-            <br />
+    <section
+      aria-labelledby="final-cta-title"
+      className="px-4 py-20 sm:px-6 sm:py-28 lg:py-32"
+    >
+      <div className="mx-auto grid max-w-[1120px] items-center gap-x-16 gap-y-10 lg:grid-cols-[1fr_minmax(0,32rem)]">
+        <div className="flex max-w-xl flex-col gap-3.5">
+          <Eyebrow>Get started</Eyebrow>
+          <h2
+            id="final-cta-title"
+            className="font-heading text-[34px] leading-[1.08] font-bold tracking-[-0.025em] text-balance text-ink sm:text-[44px] lg:text-[52px]"
+          >
+            Start growing your{" "}
             <span className="text-primary">Reddit presence.</span>
           </h2>
-          <p className="text-muted-foreground text-lg mb-10 max-w-lg mx-auto leading-relaxed">
+          <p className="text-[17px] leading-[27px] text-pretty text-ink-secondary">
             Join thousands of Reddit creators getting authentic engagement every
             day. It takes less than a minute to get started.
           </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="flex justify-center gap-3 max-w-sm mx-auto mb-8"
-        >
-          <Link
-            href="/register"
-            className="group hover:scale-105 transition-transform duration-200"
-          >
-            <Button className="h-12 px-6 font-semibold gap-2 shrink-0 w-full">
-              Get Upvotes & Comments
-              <span className="inline-flex group-hover:translate-x-1 transition-transform duration-200">
-                <IconArrowRight size={15} />
-              </span>
+          <div className="mt-2 flex flex-wrap items-center gap-x-[18px] gap-y-2.5">
+            <Button asChild className="group h-12 gap-2 px-5 text-base">
+              <Link href="/register">
+                Get upvotes &amp; comments
+                <IconArrowRight
+                  size={18}
+                  className="transition-transform duration-200 group-hover:translate-x-0.5"
+                />
+              </Link>
             </Button>
-          </Link>
-        </motion.div>
-
-        <motion.ul
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
-        >
-          {trustPoints.map(({ icon: Icon, label }) => (
-            <li
-              key={label}
-              className="flex items-center gap-1.5 text-sm text-muted-foreground"
+            <Link
+              href="/#how-it-works"
+              className="inline-flex min-h-11 items-center gap-1.5 font-medium text-ink"
             >
-              <Icon size={14} className="text-primary" stroke={2} />
-              {label}
-            </li>
-          ))}
-        </motion.ul>
+              See how it works
+              <IconArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+
+        <figure
+          aria-label="Example of karma growth on Karmicup"
+          className="m-0 w-full rounded-xl border border-border bg-white p-6 shadow-[0_1px_2px_rgba(15,15,15,0.04),0_16px_40px_rgba(15,15,15,0.08)]"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-brand-tint text-primary">
+                <IconArrowBigUpFilled size={22} />
+              </span>
+              <div>
+                <p className="text-sm font-semibold text-ink">
+                  Karma on your posts
+                </p>
+                <p className="mt-0.5 flex items-center gap-1 font-heading text-3xl font-bold text-primary">
+                  +184
+                  <IconTrendingUp size={22} />
+                </p>
+              </div>
+            </div>
+            <span className="inline-flex shrink-0 items-center rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground">
+              Last 7 days
+            </span>
+          </div>
+
+          <div
+            aria-hidden
+            className="mt-7 flex h-36 items-end gap-2 border-b border-hairline"
+          >
+            {weeklyKarma.map(({ day, value }, i) => (
+              <div
+                key={day}
+                className={
+                  i === weeklyKarma.length - 1
+                    ? "flex-1 rounded-t-md bg-primary"
+                    : "flex-1 rounded-t-md bg-brand-soft"
+                }
+                style={{ height: `${value}%` }}
+              />
+            ))}
+          </div>
+          <figcaption className="mt-2 flex gap-2 text-[11px] font-medium text-muted-foreground">
+            {weeklyKarma.map(({ day }) => (
+              <span key={day} className="flex-1 text-center">
+                {day}
+              </span>
+            ))}
+          </figcaption>
+        </figure>
       </div>
     </section>
   );

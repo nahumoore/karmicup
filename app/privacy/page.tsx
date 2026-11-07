@@ -163,10 +163,10 @@ const sections = [
 
 export default function PrivacyPage() {
   return (
-    <main>
+    <main className="min-h-screen bg-white text-ink">
       <Navbar />
 
-      <article className="pt-32 pb-24">
+      <article className="pt-[124px] pb-24 sm:pt-[140px]">
         <div className="max-w-3xl mx-auto px-6">
           {/* Page header */}
           <header className="mb-14">
@@ -174,7 +174,7 @@ export default function PrivacyPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary text-xs font-semibold px-3 py-1.5 rounded-full mb-6"
+              className="mb-5 inline-flex items-center gap-2 text-[13px] font-medium text-muted-foreground [&_svg]:text-primary"
             >
               <IconShield size={13} stroke={2.5} />
               Last updated {LAST_UPDATED}
@@ -184,7 +184,7 @@ export default function PrivacyPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.07, ease: [0.22, 1, 0.36, 1] }}
-              className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground mb-4"
+              className="mb-4 font-heading text-[36px] leading-[1.08] font-bold tracking-[-0.025em] text-balance text-ink sm:text-[48px]"
             >
               Privacy Policy
             </motion.h1>
@@ -193,7 +193,7 @@ export default function PrivacyPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
-              className="text-lg text-muted-foreground leading-relaxed"
+              className="text-lg leading-7 text-pretty text-ink-secondary"
             >
               Your privacy matters to us. This policy explains what data we collect,
               how we use it, and the choices you have — written plainly, without legal jargon.
@@ -215,22 +215,22 @@ export default function PrivacyPage() {
                     delay: index * 0.07,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="bg-muted/40 border border-border rounded-2xl p-6"
+                  className="rounded-xl border border-border bg-white p-6 shadow-[0_1px_2px_rgba(15,15,15,0.04)]"
                 >
                   <div className="flex items-center gap-3 mb-5">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 text-primary shrink-0">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-tint text-primary shrink-0">
                       <Icon size={16} stroke={2} />
                     </span>
-                    <h2 className="text-base font-semibold text-foreground">{section.title}</h2>
+                    <h2 className="text-lg font-semibold tracking-[-0.01em] text-ink">{section.title}</h2>
                   </div>
 
                   <ul className="space-y-4">
                     {section.content.map((item) => (
                       <li key={item.label} className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5">
-                        <span className="mt-0.5 w-1.5 h-1.5 rounded-full bg-primary/60 shrink-0 mt-[7px]" />
+                        <span className="mt-0.5 w-1.5 h-1.5 rounded-full bg-brand shrink-0 mt-[7px]" />
                         <div>
-                          <span className="text-sm font-medium text-foreground">{item.label} — </span>
-                          <span className="text-sm text-muted-foreground">{item.description}</span>
+                          <span className="text-sm font-semibold text-ink">{item.label} — </span>
+                          <span className="text-sm leading-6 text-ink-secondary">{item.description}</span>
                         </div>
                       </li>
                     ))}
