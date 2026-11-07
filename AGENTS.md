@@ -16,6 +16,29 @@ Karmicup's **only** purpose is to act as a **lead magnet for [MentioHunt](https:
 - Karmicup attracts founders, makers and marketers who promote their products on Reddit. Every feature, page and piece of copy should ultimately help move these users toward MentioHunt (e.g. contextual CTAs, cross-links, content about growth/SEO/backlinks).
 - When building or changing a feature, consider how it supports this goal. Don't add features that don't serve the community or the funnel to MentioHunt.
 
+## MentioHunt links
+
+Every link from Karmicup to MentioHunt must follow these rules:
+
+- **Dofollow**: never add `nofollow`, `sponsored` or `ugc` to the `rel` attribute.
+- **No `noreferrer`**: the Referer header must reach MentioHunt. Use `rel="noopener"` (exported as `MENTIOHUNT_LINK_REL`).
+- **UTM-tagged**: always add `utm_source=karmicup&utm_medium=referral&utm_campaign=<placement>` (+ optional `utm_content=<variant>`) so MentioHunt analytics attributes the traffic to Karmicup.
+- **Never hardcode a MentioHunt URL.** Use the helpers:
+  - `<MentiohuntLink placement="footer" content="built_by" path="/pricing">` from `@/components/mentiohunt-link` (renders the `<a>` with `target="_blank"`, the right `rel` and the UTM URL).
+  - `mentiohuntUrl(path, { placement, content })` + `MENTIOHUNT_LINK_REL` from `@/lib/mentiohunt` when you need the raw URL.
+- `placement` = where the link lives (snake_case: `footer`, `about`, `dashboard_sidebar`...). `content` = which link inside that placement (`built_by`, `pricing`...).
+- The footer always shows "Built by the MentioHunt team" with a dofollow link to MentioHunt.
+
+## Design system
+
+Karmicup mirrors **MentioHunt's design system** (https://mentiohunt.com). Keep new UI consistent with it:
+
+- **Fonts**: Figtree for headings (`font-heading`, applied to `h1`-`h3` by default), Inter for UI/body (`font-sans`).
+- **Colors** (tokens in `app/globals.css`): `text-ink` (#1F1F1F), `text-ink-secondary` (#4A4946), `text-muted-foreground` (#73726E), `border-border` (#E2E2DF), `border-hairline` (#EDEDEB), `bg-surface` (#F7F7F5) for alternating bands, `bg-primary` (#D63F0A, hover `bg-primary-hover`) for CTAs and accents, `text-brand`/`bg-brand` (#FF5A1F) for small decorative accents, `bg-brand-tint`/`bg-brand-soft` for soft orange fills.
+- `stone-*` and `gray-*` utilities are remapped to MentioHunt's warm neutral scale. Prefer the semantic tokens above in new code.
+- **Patterns**: section eyebrow = orange dot + 13px muted label (`Eyebrow` / `SectionHeader` in `components/landing/section-header.tsx`); bold Figtree headings with tight tracking (`tracking-[-0.025em]`); white cards with `rounded-xl border border-border` and a subtle shadow; hairline dividers instead of heavy borders; content max width `max-w-[1120px]`; hero with dot grid + soft orange glow.
+- Logo: use `BrandLogo` from `components/landing/brand-logo.tsx`.
+
 ## Language
 
 - The user (Nicolas) speaks in **Spanish**. You may reply in Spanish in chat.

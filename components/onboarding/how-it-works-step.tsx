@@ -12,7 +12,7 @@ const HOW_CARDS = [
     step: "01",
     title: "Submit your content",
     body: "Paste a link to your Reddit post or comment. It enters the community feed for others to discover and support.",
-    accent: "oklch(0.646 0.222 41.116)",
+    accent: "var(--primary)",
   },
   {
     Icon: IconArrowBigUp,
@@ -71,7 +71,10 @@ export function HowItWorksStep({ onNext }: { onNext: () => void }) {
           >
             <div
               className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
-              style={{ background: `${accent}18`, color: accent }}
+              style={{
+                background: `color-mix(in oklab, ${accent} 10%, transparent)`,
+                color: accent,
+              }}
             >
               <Icon size={19} />
             </div>
@@ -99,7 +102,7 @@ export function HowItWorksStep({ onNext }: { onNext: () => void }) {
         whileTap={{ scale: 0.96 }}
         onClick={onNext}
         className="group flex cursor-pointer items-center gap-2.5 rounded-xl px-9 py-3.5 text-[13px] font-semibold text-white shadow-sm"
-        style={{ background: "oklch(0.646 0.222 41.116)" }}
+        style={{ background: "var(--primary)" }}
       >
         Got it, let's go
         <IconArrowRight

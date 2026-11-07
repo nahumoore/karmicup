@@ -1,28 +1,20 @@
-"use client";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { motion } from "motion/react";
+import { SectionHeader } from "@/components/landing/section-header";
+import { SUBMIT_COST } from "@/consts/submission-cost";
 
 const faqs = [
   {
     question: "How do I get points?",
-    answer:
-      "Engaging with other members' content earns you points: upvoting a post gives you +1 point, and leaving a comment earns you +5 points. Submitting your own content costs 10 points — so the more you give, the more you can promote.",
+    answer: `Engaging with other members' content earns you points: upvoting a post gives you +1 point, and leaving a comment earns you +5 points. Submitting your own content costs ${SUBMIT_COST} points, so the more you give, the more you can promote.`,
   },
   {
     question: "How does the points system work?",
     answer:
-      "Points are the currency of Karmicup. They keep the platform balanced — everyone contributes before they can promote. There are no shortcuts, no paid tiers, and no way to buy your way in. The system ensures that engagement stays mutual and meaningful.",
+      "Points are the currency of Karmicup. They keep the platform balanced: everyone contributes before they can promote. There are no shortcuts, no paid tiers and no way to buy your way in, so engagement stays mutual and meaningful.",
   },
   {
     question: "What counts as engaging?",
     answer:
-      "Upvoting and commenting on submissions in the feed both count. Comments carry more weight (+5) because they add real value to a conversation. Low-effort or spammy comments don't fly — the community notices, and so do we.",
+      "Upvoting and commenting on submissions in the feed both count. Comments carry more weight (+5) because they add real value to a conversation. Low-effort or spammy comments don't fly: the community notices, and so do we.",
   },
   {
     question: "How quickly will I see results on my post?",
@@ -32,62 +24,41 @@ const faqs = [
   {
     question: "Can I submit any Reddit post or comment?",
     answer:
-      "Yes — you can submit any public Reddit post or comment by pasting its URL. There are no subreddit restrictions. Just make sure the content is genuine and follows Reddit's own rules for the subreddit it's in.",
+      "Yes. You can submit any public Reddit post or comment by pasting its URL. There are no subreddit restrictions. Just make sure the content is genuine and follows the rules of the subreddit it's in.",
   },
   {
     question: "What happens if I run out of points?",
     answer:
-      "You simply need to engage with more posts to earn them back. Head to the feed, upvote or comment on a few submissions, and you'll have enough points to submit again in no time.",
+      "Engage with more posts to earn them back. Head to the feed, upvote or comment on a few submissions, and you'll have enough points to submit again in no time.",
   },
 ];
 
 export function FAQ() {
   return (
-    <section id="faq" className="bg-background pt-28 md:pt-36">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.header
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <p className="text-primary text-sm font-bold uppercase tracking-[0.15em] mb-4">
-            FAQ
-          </p>
-          <h2 className="text-4xl md:text-5xl font-black text-foreground leading-tight tracking-tight">
-            Questions & answers
-          </h2>
-          <p className="text-muted-foreground text-lg mt-4 max-w-xl mx-auto">
-            Everything you need to know before getting started.
-          </p>
-        </motion.header>
+    <section
+      id="faq"
+      aria-labelledby="faq-title"
+      className="scroll-mt-[60px] px-4 pt-20 sm:px-6 sm:pt-28 lg:pt-32"
+    >
+      <div className="mx-auto flex max-w-[1120px] flex-wrap gap-x-16 gap-y-8">
+        <SectionHeader
+          id="faq-title"
+          eyebrow="FAQ"
+          title="Common questions"
+          description="Everything you need to know before getting started."
+          className="flex-[1_1_280px]"
+        />
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-2xl mx-auto"
-        >
-          <Accordion
-            type="single"
-            collapsible
-            className="w-full"
-            defaultValue="item-0"
-          >
-            {faqs.map(({ question, answer }, i) => (
-              <AccordionItem key={i} value={`item-${i}`}>
-                <AccordionTrigger className="text-left font-semibold text-foreground text-base">
-                  {question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">
-                  {answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </motion.div>
+        <dl className="m-0 flex min-w-0 flex-[999_1_560px] flex-col border-b border-hairline">
+          {faqs.map(({ question, answer }) => (
+            <div key={question} className="border-t border-hairline py-5">
+              <dt className="text-base font-semibold text-ink">{question}</dt>
+              <dd className="m-0 mt-1.5 text-[15px] leading-6 text-pretty text-ink-secondary">
+                {answer}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );

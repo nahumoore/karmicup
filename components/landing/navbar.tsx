@@ -1,74 +1,67 @@
 "use client";
 
+import { BrandLogo } from "@/components/landing/brand-logo";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { IconArrowBigUpFilled } from "@tabler/icons-react";
-import { motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const navLinks = [
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Community", href: "#community" },
-  { label: "FAQ", href: "#faq" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "About", href: "/about" },
 ];
+
+const navItemClass =
+  "inline-flex h-9 items-center rounded-md px-2.5 text-sm font-medium text-[#2F2F2D] transition-colors hover:bg-[#EFEFED] hover:text-ink";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = (): void => setScrolled(window.scrollY > 40);
+    const handleScroll = (): void => setScrolled(window.scrollY > 8);
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <motion.header
-      initial={{ opacity: 0, y: -16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    <header
       className={cn(
-        "fixed top-0 inset-x-0 z-50 transition-all duration-500",
+        "fixed inset-x-0 top-0 z-50 w-full border-b transition-colors duration-200",
         scrolled
-          ? "bg-background/90 backdrop-blur-xl border-b border-border shadow-sm"
-          : "bg-transparent",
+          ? "border-hairline bg-white/90 backdrop-blur-md"
+          : "border-transparent bg-transparent",
       )}
     >
-      <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary text-primary-foreground group-hover:scale-105 transition-transform duration-200">
-            <IconArrowBigUpFilled size={17} stroke={2.5} />
-          </span>
-          <span className="text-lg font-bold text-foreground tracking-tight">
-            karmic<span className="text-primary">up</span>
-          </span>
-        </Link>
+      <nav
+        aria-label="Main"
+        className="mx-auto flex h-[60px] max-w-[1200px] items-center gap-2 px-4 sm:px-6 lg:px-10"
+      >
+        <BrandLogo className="mr-3" />
 
-        <ul className="hidden md:flex items-center gap-8">
+        <ul className="hidden items-center gap-0.5 md:flex">
           {navLinks.map(({ label, href }) => (
             <li key={label}>
-              <a
-                href={href}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium"
-              >
+              <Link href={href} className={navItemClass}>
                 {label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
 
-        <div className="flex items-center gap-3">
+        <div className="ml-auto flex shrink-0 items-center gap-1.5">
           <Link
             href="/login"
-            className="hidden md:block text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium"
+            className={cn(navItemClass, "hidden sm:inline-flex")}
           >
-            Sign in
+            Login
           </Link>
-          <Button asChild className="h-9 px-5 text-sm font-semibold rounded-lg">
+          <Button asChild className="h-9 px-3.5 text-sm">
             <Link href="/register">Join for free</Link>
           </Button>
         </div>
       </nav>
-    </motion.header>
+    </header>
   );
 }

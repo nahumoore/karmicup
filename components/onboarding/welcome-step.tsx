@@ -29,7 +29,7 @@ export function WelcomeStep({ onNext }: { onNext: () => void }) {
         className="mb-4 text-5xl font-extrabold leading-[1.1] tracking-tight text-gray-900"
       >
         Welcome to{" "}
-        <span style={{ color: "oklch(0.646 0.222 41.116)" }}>Karmicup</span>
+        <span style={{ color: "var(--primary)" }}>Karmicup</span>
       </motion.h1>
 
       <motion.p
@@ -70,7 +70,7 @@ export function WelcomeStep({ onNext }: { onNext: () => void }) {
         whileTap={{ scale: 0.96 }}
         onClick={onNext}
         className="group flex cursor-pointer items-center gap-2.5 rounded-xl px-9 py-3.5 text-[13px] font-semibold text-white shadow-sm"
-        style={{ background: "oklch(0.646 0.222 41.116)" }}
+        style={{ background: "var(--primary)" }}
       >
         Get started
         <IconArrowRight

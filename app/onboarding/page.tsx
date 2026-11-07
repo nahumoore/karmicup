@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandLogo } from "@/components/landing/brand-logo";
 import { BackgroundEffects } from "@/components/onboarding/background-effects";
 import { HowItWorksStep } from "@/components/onboarding/how-it-works-step";
 import {
@@ -10,9 +11,8 @@ import {
 import { WelcomeStep } from "@/components/onboarding/welcome-step";
 import { supabaseClient } from "@/lib/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconArrowBigUp, IconLogout } from "@tabler/icons-react";
+import { IconLogout } from "@tabler/icons-react";
 import { AnimatePresence } from "motion/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -61,14 +61,7 @@ export default function OnboardingPage() {
 
       {/* Logo */}
       <header className="absolute left-7 top-7 z-10 flex items-center gap-2">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary text-primary-foreground group-hover:scale-105 transition-transform duration-200">
-            <IconArrowBigUp size={17} stroke={2.5} />
-          </span>
-          <span className="text-lg font-bold text-foreground tracking-tight">
-            karmic<span className="text-primary">up</span>
-          </span>
-        </Link>
+        <BrandLogo />
       </header>
 
       {/* Progress dots */}
@@ -84,10 +77,10 @@ export default function OnboardingPage() {
               width: i === step ? 28 : i < step ? 20 : 14,
               background:
                 i < step
-                  ? "oklch(0.646 0.222 41.116 / 0.5)"
+                  ? "color-mix(in oklab, var(--primary) 50%, transparent)"
                   : i === step
-                    ? "oklch(0.646 0.222 41.116)"
-                    : "#e5e7eb",
+                    ? "var(--primary)"
+                    : "var(--border)",
             }}
           />
         ))}

@@ -18,7 +18,7 @@ import {
 } from "@/hooks/use-reddit-account";
 import { type UserInfo, useUserInfo } from "@/hooks/use-user-info";
 import {
-  IconArrowBigUp,
+  IconArrowBigUpFilled,
   IconCoin,
   IconCompass,
   IconNotes,
@@ -89,11 +89,11 @@ export function AppSidebar({
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href="/" className="flex items-center gap-2.5 group">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary text-primary-foreground group-hover:scale-105 transition-transform duration-200">
-                  <IconArrowBigUp size={17} stroke={2.5} />
+                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary text-primary-foreground">
+                  <IconArrowBigUpFilled size={17} />
                 </span>
-                <span className="text-lg font-bold text-foreground tracking-tight">
-                  karmic<span className="text-primary">up</span>
+                <span className="font-heading text-lg font-semibold tracking-[-0.01em] text-ink">
+                  Karmic<span className="text-brand">up</span>
                 </span>
               </Link>
             </SidebarMenuButton>
@@ -101,13 +101,13 @@ export function AppSidebar({
         </SidebarMenu>
 
         {/* Points balance */}
-        <div className="mx-1 p-3 rounded-xl bg-primary/8 border border-primary/15">
-          <p className="text-[10px] font-semibold text-primary/60 uppercase tracking-widest mb-1.5">
+        <div className="mx-1 p-3 rounded-xl bg-brand-tint border border-brand-soft">
+          <p className="text-[11px] font-medium text-muted-foreground mb-1.5">
             Points Balance
           </p>
           <div className="flex items-center gap-1.5">
             <IconCoin className="w-4 h-4 text-primary" />
-            <span className="text-xl font-bold tracking-tight">
+            <span className="font-heading text-xl font-bold tracking-tight text-ink">
               {userInfo.points.toLocaleString()}
             </span>
             <span className="text-xs text-muted-foreground font-medium">
