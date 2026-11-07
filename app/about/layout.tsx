@@ -1,19 +1,15 @@
 import type { Metadata } from 'next'
-import { PAGE_SEO } from '@/consts/seo-metadata'
+import { JsonLd } from '@/components/seo/json-ld'
+import { buildPageMetadata } from '@/consts/seo-metadata'
+import { ABOUT_STRUCTURED_DATA } from '@/consts/structured-data'
 
-export const metadata: Metadata = {
-  title: PAGE_SEO.about.title,
-  description: PAGE_SEO.about.description,
-  openGraph: {
-    title: PAGE_SEO.about.title,
-    description: PAGE_SEO.about.description,
-  },
-  twitter: {
-    title: PAGE_SEO.about.title,
-    description: PAGE_SEO.about.description,
-  },
-}
+export const metadata: Metadata = buildPageMetadata('about', { path: '/about' })
 
 export default function AboutLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
+  return (
+    <>
+      <JsonLd data={ABOUT_STRUCTURED_DATA} />
+      {children}
+    </>
+  )
 }
