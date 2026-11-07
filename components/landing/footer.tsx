@@ -51,9 +51,43 @@ export function Footer() {
           </nav>
         </div>
 
+        <aside className="mt-10 rounded-2xl border border-border bg-background p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-foreground">
+              Promoting your product beyond Reddit?
+            </p>
+            <p className="text-sm text-muted-foreground mt-1 max-w-xl">
+              MentioHunt finds sites where your pages are a good fit for a
+              backlink, writes the outreach email and sends it for you. Free
+              preview, no card.
+            </p>
+          </div>
+          <a
+            href="https://mentiohunt.com?utm_source=karmicup&utm_medium=referral&utm_campaign=footer"
+            target="_blank"
+            rel="noopener"
+            className="shrink-0 inline-flex items-center justify-center h-10 px-4 rounded-lg border border-primary/30 bg-primary/10 text-primary text-sm font-semibold hover:bg-primary/15 transition-colors duration-200"
+          >
+            Find backlinks with MentioHunt
+          </a>
+        </aside>
+
         <div className="mt-8 pt-6 border-t border-border text-center">
           <p className="text-xs text-muted-foreground">
-            © {year} Karmicup. Built by Nicolas.
+            © {year} Karmicup. Built by{" "}
+            <Link href="/about" className="hover:text-foreground underline-offset-2 hover:underline">
+              Nicolas
+            </Link>
+            , also the maker of{" "}
+            <a
+              href="https://mentiohunt.com?utm_source=karmicup&utm_medium=referral&utm_campaign=footer_credit"
+              target="_blank"
+              rel="noopener"
+              className="hover:text-foreground underline-offset-2 hover:underline"
+            >
+              MentioHunt
+            </a>
+            .
           </p>
         </div>
       </div>

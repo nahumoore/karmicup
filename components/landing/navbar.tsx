@@ -7,10 +7,12 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+// Absolute anchors so the links also work from inner pages (e.g. /about).
 const navLinks = [
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Community", href: "#community" },
-  { label: "FAQ", href: "#faq" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Why Karmicup", href: "/#benefits" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "About", href: "/about" },
 ];
 
 export function Navbar() {
@@ -47,12 +49,12 @@ export function Navbar() {
         <ul className="hidden md:flex items-center gap-8">
           {navLinks.map(({ label, href }) => (
             <li key={label}>
-              <a
+              <Link
                 href={href}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium"
               >
                 {label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

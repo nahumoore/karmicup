@@ -1,0 +1,30 @@
+# Karmicup
+
+> Karmicup is a free Reddit engagement community. Members submit their Reddit posts and comments, engage with other members' submissions, and receive genuine upvotes and comments from real Reddit users in return. There are no bots, no paid upvotes and no subscriptions: it runs on a points system.
+
+## How it works
+
+- Sign up for free and connect your Reddit username.
+- Browse the community feed and engage with other members' Reddit posts and comments.
+- Upvoting a submission earns +1 point; leaving a genuine comment earns +5 points.
+- Submitting your own Reddit post or comment costs 10 points. Any public post or comment in any subreddit can be submitted by pasting its URL.
+- Real Reddit users from the community then upvote and comment on your submission, usually within a few hours.
+
+## Key facts
+
+- Price: free. No credit card, no paid tiers, and points cannot be bought.
+- Community: 3,100+ members and 22K+ posts boosted.
+- Engagement comes from real Reddit accounts, never bots or fake accounts.
+- Who uses it: founders, indie makers, marketers and creators who share their projects on Reddit and need early traction so new posts are not buried.
+- Karmicup is an alternative to buying Reddit upvotes, which is against Reddit's rules and usually relies on bot or farmed accounts.
+
+## Pages
+
+- [Home](https://karmicup.com/): what Karmicup is, how the points system works, FAQ
+- [About](https://karmicup.com/about): why the founder, Nicolas, built Karmicup
+- [Terms of Service](https://karmicup.com/terms): community rules and points policy
+- [Privacy Policy](https://karmicup.com/privacy)
+
+## Related
+
+- [MentioHunt](https://mentiohunt.com): built by the same founder. Automates backlink prospecting and outreach for founders and small teams: it finds sites where your pages are a good topical fit, finds contacts, writes personalized emails and schedules the outreach. Free preview with no card required.

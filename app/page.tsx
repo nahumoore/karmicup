@@ -5,27 +5,20 @@ import { HowItWorks } from '@/components/landing/how-it-works'
 import { FAQ } from '@/components/landing/faq'
 import { FinalCTA } from '@/components/landing/final-cta'
 import { Footer } from '@/components/landing/footer'
+import { JsonLd } from '@/components/seo/json-ld'
 import type { Metadata } from 'next'
-import { PAGE_SEO } from '@/consts/seo-metadata'
+import { buildPageMetadata } from '@/consts/seo-metadata'
+import { HOME_STRUCTURED_DATA } from '@/consts/structured-data'
 
-export const metadata: Metadata = {
-  title: {
-    absolute: PAGE_SEO.home.title,
-  },
-  description: PAGE_SEO.home.description,
-  openGraph: {
-    title: PAGE_SEO.home.title,
-    description: PAGE_SEO.home.description,
-  },
-  twitter: {
-    title: PAGE_SEO.home.title,
-    description: PAGE_SEO.home.description,
-  },
-}
+export const metadata: Metadata = buildPageMetadata('home', {
+  path: '/',
+  absoluteTitle: true,
+})
 
 export default function Page() {
   return (
     <main>
+      <JsonLd data={HOME_STRUCTURED_DATA} />
       <Navbar />
       <Hero />
       <Benefits />
