@@ -1,0 +1,63 @@
+# Builds every pull request (typecheck + OpenNext build) and deploys main to
+# Cloudflare Workers (worker "karmicup", see wrangler.jsonc) on every push.
+#
+# Required repository settings:
+#   secrets.CLOUDFLARE_API_TOKEN   API token from the "Edit Cloudflare Workers" template
+#   secrets.CLOUDFLARE_ACCOUNT_ID  optional, only needed if the token can access several accounts
+#   vars.NEXT_PUBLIC_SUPABASE_URL
+#   vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
+#
+# Runtime secrets (SUPABASE_SECRET_KEY, etc.) live on the Worker itself
+# (`pnpm secrets:push`), not in GitHub.
+name: Deploy
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  # Never cancel a production deploy halfway; superseded PR builds can go.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # NEXT_PUBLIC_* values are inlined into the client bundle at build time.
+  NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY }}
+  # Only needed so modules that create the admin client can be evaluated
+  # during `next build`. The real key is read from the Worker secret at runtime.
+  SUPABASE_SECRET_KEY: build-placeholder
+
+jobs:
+  build-and-deploy:
+    name: ${{ github.event_name == 'pull_request' && 'build' || 'deploy' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm exec tsc --noEmit
+
+      - name: Build (OpenNext for Cloudflare)
+        run: pnpm exec opennextjs-cloudflare build
+
+      - name: Deploy to Cloudflare Workers
+        if: github.event_name != 'pull_request'
+        run: pnpm exec opennextjs-cloudflare deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
