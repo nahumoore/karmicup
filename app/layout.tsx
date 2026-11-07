@@ -1,15 +1,13 @@
 import { TooltipProvider } from "@/components/ui/tooltip";
 import type { Metadata } from "next";
-import { DM_Sans, Geist, Geist_Mono } from "next/font/google";
+import { Figtree, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { DEFAULT_METADATA } from "@/consts/seo-metadata";
 
-const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
+// Same typography as MentioHunt: Figtree for headings, Inter for UI/body.
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const figtree = Figtree({ subsets: ["latin"], variable: "--font-figtree" });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -24,10 +22,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSans.variable}`}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
-      >
+    <html
+      lang="en"
+      className={`${inter.variable} ${figtree.variable} ${geistMono.variable}`}
+    >
+      <body className="font-sans text-ink antialiased">
         <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>

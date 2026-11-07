@@ -1,61 +1,32 @@
-"use client";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { SectionHeader } from "@/components/landing/section-header";
 import { LANDING_FAQS as faqs } from "@/consts/faqs";
-import { motion } from "motion/react";
 
 export function FAQ() {
   return (
-    <section id="faq" className="bg-background pt-28 md:pt-36">
-      <div className="max-w-7xl mx-auto px-6">
-        <motion.header
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <p className="text-primary text-sm font-bold uppercase tracking-[0.15em] mb-4">
-            FAQ
-          </p>
-          <h2 className="text-4xl md:text-5xl font-black text-foreground leading-tight tracking-tight">
-            Questions & answers
-          </h2>
-          <p className="text-muted-foreground text-lg mt-4 max-w-xl mx-auto">
-            Everything you need to know before getting started.
-          </p>
-        </motion.header>
+    <section
+      id="faq"
+      aria-labelledby="faq-title"
+      className="scroll-mt-[60px] px-4 pt-20 sm:px-6 sm:pt-28 lg:pt-32"
+    >
+      <div className="mx-auto flex max-w-[1120px] flex-wrap gap-x-16 gap-y-8">
+        <SectionHeader
+          id="faq-title"
+          eyebrow="FAQ"
+          title="Common questions"
+          description="Everything you need to know before getting started."
+          className="flex-[1_1_280px]"
+        />
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-2xl mx-auto"
-        >
-          <Accordion
-            type="single"
-            collapsible
-            className="w-full"
-            defaultValue="item-0"
-          >
-            {faqs.map(({ question, answer }, i) => (
-              <AccordionItem key={i} value={`item-${i}`}>
-                <AccordionTrigger className="text-left font-semibold text-foreground text-base">
-                  {question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed">
-                  {answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </motion.div>
+        <dl className="m-0 flex min-w-0 flex-[999_1_560px] flex-col border-b border-hairline">
+          {faqs.map(({ question, answer }) => (
+            <div key={question} className="border-t border-hairline py-5">
+              <dt className="text-base font-semibold text-ink">{question}</dt>
+              <dd className="m-0 mt-1.5 text-[15px] leading-6 text-pretty text-ink-secondary">
+                {answer}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );

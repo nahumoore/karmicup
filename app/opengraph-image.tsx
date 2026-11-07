@@ -5,7 +5,10 @@ export const alt = "Karmicup — Free Reddit upvotes and comments from real user
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const ORANGE = "#F97316";
+const PRIMARY = "#D63F0A";
+const BRAND = "#FF5A1F";
+const INK = "#1F1F1F";
+const INK_SECONDARY = "#4A4946";
 
 /** Default social share image for every route (prerendered at build time). */
 export default function OpengraphImage() {
@@ -20,8 +23,8 @@ export default function OpengraphImage() {
           justifyContent: "space-between",
           padding: "72px 80px",
           background:
-            "radial-gradient(circle at 85% 10%, #FFEDD5 0%, #FFFFFF 55%)",
-          color: "#0A0A0A",
+            "radial-gradient(circle at 85% 10%, #FFE9DF 0%, #FFFFFF 55%)",
+          color: INK,
           fontFamily: "sans-serif",
         }}
       >
@@ -31,7 +34,7 @@ export default function OpengraphImage() {
               width: 64,
               height: 64,
               borderRadius: 16,
-              background: ORANGE,
+              background: PRIMARY,
               color: "#FFFFFF",
               display: "flex",
               alignItems: "center",
@@ -44,7 +47,7 @@ export default function OpengraphImage() {
             </svg>
           </div>
           <div style={{ display: "flex", fontSize: 44, fontWeight: 800 }}>
-            karmic<span style={{ color: ORANGE }}>up</span>
+            Karmic<span style={{ color: BRAND }}>up</span>
           </div>
         </div>
 
@@ -60,28 +63,28 @@ export default function OpengraphImage() {
             }}
           >
             Free Reddit upvotes from&nbsp;
-            <span style={{ color: ORANGE }}>real people.</span>
+            <span style={{ color: BRAND }}>real people.</span>
           </div>
-          <div style={{ display: "flex", fontSize: 32, color: "#525252" }}>
+          <div style={{ display: "flex", fontSize: 32, color: INK_SECONDARY }}>
             Engage with the community, earn points, boost your posts. No bots.
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: 56, fontSize: 28, color: "#525252" }}>
+        <div style={{ display: "flex", gap: 56, fontSize: 28, color: INK_SECONDARY }}>
           <div style={{ display: "flex", gap: 10 }}>
-            <span style={{ color: "#0A0A0A", fontWeight: 800 }}>
+            <span style={{ color: INK, fontWeight: 800 }}>
               {PLATFORM_METRICS.members}
             </span>
             members
           </div>
           <div style={{ display: "flex", gap: 10 }}>
-            <span style={{ color: "#0A0A0A", fontWeight: 800 }}>
+            <span style={{ color: INK, fontWeight: 800 }}>
               {PLATFORM_METRICS.postsBoosted}
             </span>
             posts boosted
           </div>
           <div style={{ display: "flex", gap: 10 }}>
-            <span style={{ color: ORANGE, fontWeight: 800 }}>100%</span>
+            <span style={{ color: BRAND, fontWeight: 800 }}>100%</span>
             free
           </div>
         </div>

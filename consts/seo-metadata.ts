@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 
 export const SITE_URL = 'https://karmicup.com'
 export const SITE_NAME = 'Karmicup'
-export const MENTIOHUNT_URL = 'https://mentiohunt.com'
 export const FOUNDER = {
   name: 'Nicolas',
   url: `${SITE_URL}/about`,

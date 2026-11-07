@@ -27,4 +27,4 @@
 
 ## Related
 
-- [MentioHunt](https://mentiohunt.com): built by the same founder. Automates backlink prospecting and outreach for founders and small teams: it finds sites where your pages are a good topical fit, finds contacts, writes personalized emails and schedules the outreach. Free preview with no card required.
+- [MentioHunt](https://mentiohunt.com/?utm_source=karmicup&utm_medium=referral&utm_campaign=llms_txt): built by the same founder. Automates backlink prospecting and outreach for founders and small teams: it finds sites where your pages are a good topical fit, finds contacts, writes personalized emails and schedules the outreach. Free preview with no card required. Karmicup is built by the MentioHunt team.

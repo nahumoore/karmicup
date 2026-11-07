@@ -44,8 +44,8 @@ export function UsernameStep({
         transition={{ duration: 0.5, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
         className="mb-7 flex h-16 w-16 items-center justify-center rounded-4xl text-3xl"
         style={{
-          background: "oklch(0.646 0.222 41.116 / 0.08)",
-          border: "1px solid oklch(0.646 0.222 41.116 / 0.15)",
+          background: "color-mix(in oklab, var(--primary) 8%, transparent)",
+          border: "1px solid color-mix(in oklab, var(--primary) 15%, transparent)",
         }}
       >
         🎯
@@ -81,13 +81,13 @@ export function UsernameStep({
             className={cn(
               "flex items-center overflow-hidden rounded-xl border bg-white transition-all duration-200",
               "border-gray-200",
-              "focus-within:border-[oklch(0.646_0.222_41.116/0.6)] focus-within:ring-4 focus-within:ring-[oklch(0.646_0.222_41.116/0.08)]",
+              "focus-within:border-primary/60 focus-within:ring-4 focus-within:ring-primary/8",
               errors.username && "border-red-400",
             )}
           >
             <span
               className="select-none border-r border-gray-200 px-4 py-3.5 font-mono text-sm font-semibold"
-              style={{ color: "oklch(0.646 0.222 41.116)" }}
+              style={{ color: "var(--primary)" }}
             >
               u/
             </span>
@@ -127,7 +127,7 @@ export function UsernameStep({
           whileHover={!isSubmitting ? { scale: 1.04 } : undefined}
           whileTap={!isSubmitting ? { scale: 0.96 } : undefined}
           className="group flex w-full cursor-pointer items-center justify-center gap-2.5 rounded-xl px-9 py-3.5 text-[13px] font-semibold text-white shadow-sm transition-opacity disabled:cursor-not-allowed disabled:opacity-60"
-          style={{ background: "oklch(0.646 0.222 41.116)" }}
+          style={{ background: "var(--primary)" }}
         >
           {isSubmitting ? (
             <IconLoader2 size={16} className="animate-spin" />

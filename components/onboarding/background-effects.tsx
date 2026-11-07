@@ -6,7 +6,7 @@ export function BackgroundEffects() {
         className="pointer-events-none absolute -top-32 -right-32 h-120 w-120 rounded-full opacity-[0.07] blur-[120px]"
         style={{
           background:
-            "radial-gradient(circle, oklch(0.646 0.222 41.116), transparent 65%)",
+            "radial-gradient(circle, var(--primary), transparent 65%)",
         }}
       />
       <div
