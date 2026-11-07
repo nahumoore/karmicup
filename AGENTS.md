@@ -4,6 +4,23 @@ Karmicup it's free for the moment, but it has a system of points so users can en
 
 **NEVER** use dark theme, always in default light.
 
+## Purpose of this site
+
+Karmicup's **only** purpose is to act as a **lead magnet for [MentioHunt](https://mentiohunt.com)**, our main SaaS.
+
+- **MentioHunt** automates backlink prospecting and outreach for founders and small teams who sell online (founders, small teams, agencies, expert service providers, online brands).
+  - You add your website, competitors and target keywords; a free preview (no card, no outreach sent) shows real opportunities.
+  - It scans daily for sites where your pages are a good topical fit, finds contacts, writes a personalized email and schedules outreach automatically. Automation stops when a prospect replies and the user continues from their own mailbox.
+  - Also offers a Link Building API and an MCP server (Claude/Codex can check replies and opportunities).
+  - Plans: Pro ($49/mo) and Agency ($99/mo). Pages: `/pricing`, `/features`, `/about`, `/blog`.
+- Karmicup attracts founders, makers and marketers who promote their products on Reddit. Every feature, page and piece of copy should ultimately help move these users toward MentioHunt (e.g. contextual CTAs, cross-links, content about growth/SEO/backlinks).
+- When building or changing a feature, consider how it supports this goal. Don't add features that don't serve the community or the funnel to MentioHunt.
+
+## Language
+
+- The user (Nicolas) speaks in **Spanish**. You may reply in Spanish in chat.
+- **All code, comments, commit messages, PR titles/descriptions and UI copy MUST be in English.**
+
 ## Technical Stack
 
 **Frontend:**
