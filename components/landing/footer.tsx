@@ -14,6 +14,16 @@ const footerNav = [
     ],
   },
   {
+    title: "Guides",
+    links: [
+      { label: "All guides", href: "/blog" },
+      {
+        label: "How to get karma on Reddit",
+        href: "/blog/how-to-get-karma-on-reddit",
+      },
+    ],
+  },
+  {
     title: "Company",
     links: [
       { label: "About", href: "/about" },

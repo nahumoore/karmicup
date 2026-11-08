@@ -65,6 +65,11 @@ export const PAGE_SEO = {
     description:
       'Meet Nicolas, the founder of Karmicup. A Reddit marketer who built a free engagement community after getting tired of paying for the first upvotes.',
   },
+  blog: {
+    title: 'Reddit Growth Guides',
+    description:
+      'Practical guides on Reddit karma, upvotes and promoting your product on Reddit without getting banned. Written by the Karmicup team.',
+  },
   settings: {
     title: 'Settings',
     description:
@@ -117,6 +122,46 @@ export function buildPageMetadata(
       images: [DEFAULT_OG_IMAGE],
     },
     ...(noIndex ? { robots: { index: false, follow: false } } : {}),
+  }
+}
+
+/**
+ * Metadata for a blog article (app/blog/[slug]). Uses the article's own
+ * `seoTitle` as an absolute title and Open Graph type "article".
+ */
+export function buildArticleMetadata(article: {
+  slug: string
+  seoTitle: string
+  description: string
+  publishedAt: string
+  updatedAt: string
+}): Metadata {
+  const { slug, seoTitle, description, publishedAt, updatedAt } = article
+  const path = `/blog/${slug}`
+
+  return {
+    title: { absolute: seoTitle },
+    description,
+    alternates: { canonical: path },
+    authors: [{ name: FOUNDER.name, url: FOUNDER.url }],
+    openGraph: {
+      siteName: SITE_NAME,
+      locale: 'en_US',
+      type: 'article',
+      url: path,
+      title: seoTitle,
+      description,
+      publishedTime: publishedAt,
+      modifiedTime: updatedAt,
+      authors: [FOUNDER.url],
+      images: [DEFAULT_OG_IMAGE],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: seoTitle,
+      description,
+      images: [DEFAULT_OG_IMAGE],
+    },
   }
 }
 
