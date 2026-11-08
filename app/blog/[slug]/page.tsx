@@ -16,9 +16,12 @@ import { notFound } from "next/navigation";
 
 type Params = Promise<{ slug: string }>;
 
-/** Every article is prerendered at build time; unknown slugs are 404s. */
-export const dynamicParams = false;
-
+/**
+ * Every article is prerendered at build time. Don't set `dynamicParams = false`:
+ * the OpenNext worker has no incremental cache configured, so it renders
+ * the page on request, and with dynamicParams disabled that returns a 404 in
+ * production. Unknown slugs still 404 through notFound() below.
+ */
 export function generateStaticParams() {
   return BLOG_POSTS.map(({ slug }) => ({ slug }));
 }
