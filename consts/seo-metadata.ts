@@ -72,6 +72,11 @@ export const PAGE_SEO = {
     description:
       'Practical guides on Reddit karma, upvotes and promoting your product on Reddit without getting banned. Written by the Karmicup team.',
   },
+  tools: {
+    title: 'Free Reddit Tools: Karma, Shadowban & Subreddit Checks',
+    description:
+      'Free Reddit tools for founders and makers: check any account’s karma, spot a shadowban and see what a subreddit requires before you post. No signup.',
+  },
   settings: {
     title: 'Settings',
     description:
@@ -156,6 +161,40 @@ export function buildArticleMetadata(article: {
       publishedTime: publishedAt,
       modifiedTime: updatedAt,
       authors: [FOUNDER.url],
+      images: [DEFAULT_OG_IMAGE],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: seoTitle,
+      description,
+      images: [DEFAULT_OG_IMAGE],
+    },
+  }
+}
+
+/**
+ * Metadata for a free tool page (app/tools/[slug]). Uses the tool's own
+ * `seoTitle` as an absolute title.
+ */
+export function buildToolMetadata(tool: {
+  slug: string
+  seoTitle: string
+  description: string
+}): Metadata {
+  const { slug, seoTitle, description } = tool
+  const path = `/tools/${slug}`
+
+  return {
+    title: { absolute: seoTitle },
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      siteName: SITE_NAME,
+      locale: 'en_US',
+      type: 'website',
+      url: path,
+      title: seoTitle,
+      description,
       images: [DEFAULT_OG_IMAGE],
     },
     twitter: {

@@ -56,7 +56,7 @@ Volumes are monthly US searches from Google Ads (bucketed). "–" means the keyw
 | 8 | Why Is My Reddit Karma Not Going Up? | `reddit-karma-not-increasing` | reddit karma not increasing | reddit karma not updating, karma stuck, vote fuzzing | – | To do |
 | 9 | Best Subreddits for New Reddit Accounts | `subreddits-for-new-accounts` | subreddits for new accounts | subreddits to get karma, beginner friendly subreddits, subreddits with no karma requirement | – | To do |
 | 10 | Reddit Karma Farming: Why It Gets Accounts Banned | `reddit-karma-farming` | reddit karma farming | karma farm subreddits, is karma farming allowed, buy reddit karma | – | To do |
-| 11 | How to Check if You're Shadowbanned on Reddit | `reddit-shadowban-check` | reddit shadowban check | am i shadowbanned on reddit, reddit shadowban | – | To do |
+| 11 | How to Check if You're Shadowbanned on Reddit | `reddit-shadowban-check` | reddit shadowban check | am i shadowbanned on reddit, reddit shadowban | – | Covered by the free tool [`/tools/reddit-shadowban-checker`](../tools/README.md): don't write a separate article (same intent) |
 
 ### Linking inside the pillar
 

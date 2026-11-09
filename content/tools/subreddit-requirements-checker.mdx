@@ -1,0 +1,64 @@
+import { Callout } from "@/components/blog/callout";
+import { KarmicupCta, MentiohuntCta } from "@/components/blog/blog-ctas";
+
+## How the subreddit requirements checker works
+
+Every subreddit sets its own rules about who can post, and most people find out the hard way, when a post disappears. The checker reads what a community publishes before you post:
+
+1. **Enter a subreddit**, like `SaaS` or `r/SaaS`, or paste its link.
+2. **Add your username (optional).** We'll compare your account with each requirement we find.
+3. **Read the result.** You'll see the requirements written in the rules, sidebar and posting guidelines, the post types the community accepts, its self-promotion rules and the full rule list.
+
+Each requirement shows the sentence it came from, so you can judge it yourself. With a username, every requirement gets a verdict: **Meets**, **Below** or **Can't check** (for example, karma earned inside that subreddit isn't public).
+
+## What the checker can find
+
+| Requirement | Where it comes from |
+| --- | --- |
+| **Minimum karma** (total, post or comment) | Rules, sidebar and posting guidelines that mention a number of karma |
+| **Minimum account age** | Text like "accounts must be at least 7 days old" |
+| **Verified email** | Rules that ask for a verified email address |
+| **Allowed post types** | The subreddit's settings: text, links, images, videos, polls |
+| **Flair, title length, post body** | Reddit's posting requirements for the community, when available |
+| **Self-promotion rules** | Rules that mention self-promotion, advertising, spam or affiliate links |
+| **Who can post** | Whether the community is public, restricted or private |
+
+## What no tool can see
+
+Some requirements are private on purpose. If spammers knew the exact threshold, they'd farm that much karma and walk in.
+
+- **AutoModerator settings.** Moderators can filter posts by karma, account age, keywords or links without publishing anything. The checker can only show what the community wrote down.
+- **Subreddit karma.** Some communities only count the karma you earned inside them. Moderators can [use it in AutoModerator](https://www.reddit.com/r/modnews/comments/zk9qn8/subreddit_karma_is_now_in_automod/), but it isn't public.
+- **Contributor Quality Score.** Reddit's private rating of your account. We explain it along with the [other things that block new accounts](/blog/how-to-get-karma-on-reddit#karma-isnt-the-only-thing-that-blocks-new-accounts).
+- **AI rule checks.** In 2026 Reddit started rolling out Rules Hub, which checks posts against the intent of a community's rules ([TechCrunch](https://techcrunch.com/2026/08/05/reddit-aims-to-make-karma-less-important-for-first-time-posters-with-shift-to-ai-moderation-tools/) has the details). Reading the rules matters more than ever.
+
+So "no requirement found" doesn't mean "anyone can post". If you're new, assume you need some comment karma and a few days of account age.
+
+<Callout variant="tip" title="If you don't meet the requirements yet">
+
+Don't post anyway and hope. Spend a few days commenting in the same community: it builds the subreddit karma that hidden filters often check. The r/NewToReddit community keeps a [list of new-user-friendly subreddits](https://www.reddit.com/r/NewToReddit/wiki/ntr-guidetoreddit/#wiki_part_4.3A__new-user_friendly_no-to-low_karma_subreddits) where you can start, and our guide shows [how to find a subreddit's karma requirement](/blog/how-to-get-karma-on-reddit#how-to-find-a-subreddits-karma-requirement) when it isn't published.
+
+</Callout>
+
+## Posting about your own product
+
+Read the self-promotion rules twice. Communities handle it in a few common ways:
+
+- **Banned outright.** Any link to something you own gets removed, and repeat posts can get you banned.
+- **Weekly thread only.** Promotion is allowed in a pinned thread, often called "Share your project" or "Self-promotion Saturday".
+- **Allowed with context.** You can share your project if you explain what you learned and answer comments, not just drop a link.
+- **The 10% guideline.** Reddit's old self-promotion advice was to keep promotional posts to about one in ten of your contributions. Many moderators still judge accounts that way.
+
+Before you post, check that people can actually see your account with the [shadowban checker](/tools/reddit-shadowban-checker), and see your [karma breakdown](/tools/reddit-karma-checker).
+
+<KarmicupCta title="Your post is live. Now get it seen.">
+
+New posts get buried in minutes. Karmicup members discover and engage with each other's Reddit posts, so yours gets its first real upvotes and comments. Free, no bots.
+
+</KarmicupCta>
+
+## Reddit traffic is rented. Backlinks compound.
+
+A good Reddit post sends visitors for a day or two. Its link is `nofollow`, so it doesn't build your site's authority in Google. Links from relevant websites do, and they keep sending traffic long after the thread is gone.
+
+<MentiohuntCta placement="tools" content="subreddit_requirements_checker" />

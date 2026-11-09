@@ -1,0 +1,60 @@
+import { Callout } from "@/components/blog/callout";
+import { KarmicupCta, MentiohuntCta } from "@/components/blog/blog-ctas";
+
+## How the shadowban checker works
+
+A [shadowban](https://en.wikipedia.org/wiki/Shadow_banning) is hard to spot from inside your account: you can post, comment and vote, and everything looks normal to you. Other people just can't see any of it. So the checker looks at your account from the outside, the way a logged-out visitor does, and runs three checks:
+
+1. **Is the username registered?** If nobody owns it, the account doesn't exist and there's nothing to ban.
+2. **Is the account suspended?** Reddit flags suspended accounts publicly, so this one is clear-cut.
+3. **Is the profile visible to logged-out visitors?** This is the key test. If the username is taken but the profile is hidden, Reddit is hiding the account: it's shadowbanned, or it was deleted.
+
+If you deleted the account yourself, ignore the result: deleted accounts look the same from the outside.
+
+## Shadowban, suspension or subreddit ban?
+
+| | Who applies it | What you see | What others see |
+| --- | --- | --- | --- |
+| **Shadowban** | Reddit, usually its spam filters | Everything looks normal | Nothing: your profile and content are hidden |
+| **Suspension** | Reddit's admins | A notice when you log in | A "suspended" notice on your profile |
+| **Subreddit ban** | One community's moderators | A message saying you're banned there | Your old posts, but you can't post there |
+| **AutoModerator removal** | One community's settings | Your post looks live | Nothing in that community |
+
+The last row is the one that fools people. A subreddit can quietly remove everything you post there without banning you. Your profile stays visible, so this checker says you're fine, but your posts never reach anyone in that community.
+
+<Callout variant="tip" title="Check a single post by hand">
+
+Open the post's link in a private window, where you're logged out. If it's missing from the subreddit, or the text says `[removed]`, it was filtered. Then check that community's rules and requirements with our [subreddit requirements checker](/tools/subreddit-requirements-checker).
+
+</Callout>
+
+## Why Reddit shadowbans accounts
+
+Reddit doesn't tell you why. In practice, shadowbans mostly hit accounts whose behavior looks like spam under Reddit's [content policy](https://redditinc.com/policies/content-policy):
+
+- Posting the same link in many subreddits in a short time.
+- A new account that mostly drops links to one website.
+- Vote manipulation: buying upvotes, or using other accounts to upvote yourself.
+- Creating a new account to get around a ban (ban evasion).
+
+That's why we never recommend buying upvotes or using karma farms. They put exactly this kind of account at risk.
+
+## How to get your account back
+
+1. **Confirm it.** Open your profile in a private window. If Reddit says the page doesn't exist, the account is hidden.
+2. **Appeal.** Go to [reddit.com/appeal](https://www.reddit.com/appeal) from the affected account. Say briefly what you use the account for and that you'll follow the rules. Don't argue or send multiple appeals.
+3. **Wait, and don't start over.** A new account to "start fresh" counts as ban evasion and can get both accounts banned.
+
+Once you're back, rebuild slowly: comment more than you post, and share your own links only where the rules allow it. Our karma guide lists [what not to do](/blog/how-to-get-karma-on-reddit#what-not-to-do) with a new or recovered account.
+
+<KarmicupCta title="Real people, not bots">
+
+Karmicup members engage with each other's Reddit posts by hand, from their own accounts. It's a free way to get your first upvotes and comments without the risks of paid upvotes.
+
+</KarmicupCta>
+
+## Promoting a product on Reddit?
+
+Most shadowbans we see come from founders sharing their own link too often. Reddit traffic is useful, but links from Reddit are `nofollow`, so they don't help your Google rankings.
+
+<MentiohuntCta placement="tools" content="reddit_shadowban_checker" />
