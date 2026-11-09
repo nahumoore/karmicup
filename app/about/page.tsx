@@ -1,5 +1,6 @@
 "use client";
 
+import { FounderAvatar } from "@/components/founder-avatar";
 import { Footer } from "@/components/landing/footer";
 import { Navbar } from "@/components/landing/navbar";
 import { MentiohuntLink } from "@/components/mentiohunt-link";
@@ -179,13 +180,16 @@ export default function AboutPage() {
               }}
               className="rounded-xl border border-border bg-white p-6 shadow-[0_1px_2px_rgba(15,15,15,0.04)]"
             >
-              <div className="flex items-center gap-3 mb-5">
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-tint text-primary shrink-0">
-                  <IconUser size={16} stroke={2} />
-                </span>
-                <h2 className="text-lg font-semibold tracking-[-0.01em] text-ink">
-                  About me
-                </h2>
+              <div className="flex items-center gap-4 mb-5">
+                <FounderAvatar size={64} className="size-16" />
+                <div>
+                  <h2 className="text-lg font-semibold tracking-[-0.01em] text-ink">
+                    About me
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    Nicolas, founder of Karmicup
+                  </p>
+                </div>
               </div>
               <div className="space-y-3 text-sm leading-6 text-ink-secondary">
                 <p>
