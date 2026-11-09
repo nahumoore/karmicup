@@ -15,6 +15,7 @@ const founder = {
   "@id": FOUNDER_ID,
   name: FOUNDER.name,
   url: FOUNDER.url,
+  image: `${SITE_URL}${FOUNDER.image}`,
   sameAs: [FOUNDER.x],
 };
 

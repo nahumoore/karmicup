@@ -1,6 +1,7 @@
 import { ArticleFaq } from "@/components/blog/article-faq";
 import { ArticleImage } from "@/components/blog/article-image";
 import { AuthorBox } from "@/components/blog/author-box";
+import { FounderAvatar } from "@/components/founder-avatar";
 import { Footer } from "@/components/landing/footer";
 import { Navbar } from "@/components/landing/navbar";
 import { Eyebrow } from "@/components/landing/section-header";
@@ -79,11 +80,14 @@ export default async function BlogPostPage({ params }: { params: Params }) {
               {post.excerpt}
             </p>
             <p className="m-0 flex flex-wrap items-center gap-x-2 gap-y-1 text-[14px] text-muted-foreground">
-              <span>
-                By{" "}
-                <Link href="/about" className="font-medium text-ink hover:text-primary">
-                  {FOUNDER.name}
-                </Link>
+              <span className="inline-flex items-center gap-2">
+                <FounderAvatar size={28} className="size-7" />
+                <span>
+                  By{" "}
+                  <Link href="/about" className="font-medium text-ink hover:text-primary">
+                    {FOUNDER.name}
+                  </Link>
+                </span>
               </span>
               <span aria-hidden>·</span>
               <span>

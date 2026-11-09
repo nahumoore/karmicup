@@ -6,6 +6,8 @@ export const FOUNDER = {
   name: 'Nicolas',
   url: `${SITE_URL}/about`,
   x: 'https://x.com/nicolasmore_',
+  /** Same photo as https://mentiohunt.com/about */
+  image: '/founder.webp',
 }
 
 /**
