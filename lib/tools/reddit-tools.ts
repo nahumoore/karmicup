@@ -15,8 +15,8 @@ import { differenceInCalendarDays, fromUnixTime } from "date-fns";
 
 /**
  * Data layer of the free tools (/tools). Everything here reads Reddit's
- * public JSON endpoints through `redditFetch`, the same data a logged-out
- * visitor sees. Nothing is stored.
+ * public JSON endpoints through `redditFetch` (app-only OAuth in production),
+ * the same data a logged-out visitor sees. Nothing is stored.
  */
 
 // ---------------------------------------------------------------------------
@@ -514,9 +514,11 @@ async function fetchRules(name: string): Promise<SubredditRule[]> {
 async function fetchPostRequirements(
   name: string,
 ): Promise<SubredditPostRequirements> {
-  const response = await redditFetch<RedditPostRequirements>(
+  const response = await redditFetch<RedditPostRequirements & { json?: unknown }>(
     `/api/v1/${encodeURIComponent(name)}/post_requirements.json?raw_json=1`,
   );
+  // With an app-only OAuth token Reddit answers 200 + { json: { errors: [["USER_REQUIRED"…]] } }.
+  if (response.json) throw new Error("Post requirements need a logged-in user");
   return {
     flairRequired:
       typeof response.is_flair_required === "boolean"

@@ -25,7 +25,7 @@ Pages are generated from the registry: `/tools` (hub) and `/tools/<slug>` (`app/
 
 ## Rules
 
-- **Public data only.** Tools read Reddit's public JSON endpoints, the same data a logged-out visitor sees. No Reddit login, and nothing is stored.
+- **Public data only.** Tools read Reddit's public JSON endpoints through `redditFetch` (app-only OAuth, see "Reddit API Calls" in `AGENTS.md`): the same data a logged-out visitor sees. No Reddit login for visitors, and nothing is stored.
 - **Honest results.** Say what a tool can't see (private AutoModerator rules, subreddit karma, CQS). Never promise a post won't be removed.
 - **Shareable results.** Widgets keep their input in the URL (`?u=<username>`, `?r=<subreddit>`) and run on load, so results can be shared and tools can link to each other prefilled.
 - **Chain the tools.** Every result ends with "Next step" links to the other tools.
