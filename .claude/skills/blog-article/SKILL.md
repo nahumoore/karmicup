@@ -1,6 +1,6 @@
 ---
 name: blog-article
-description: Research, brief and write a Karmicup blog article end to end (topical map → SERP check → UGC questions → videos and licensed images → brief → MDX article → internal/external links → build check). Use when Nicolas asks for "the next article", "a new blog post", "write the article about X", "create the brief/outline for X", or to continue the content plan in content/blog/README.md.
+description: Research, brief and write a Karmicup blog article end to end (topical map → SERP check → UGC questions → videos and licensed images → brief → MDX article → internal link research in both directions + 3–5 dofollow authority links → build check). Use when Nicolas asks for "the next article", "a new blog post", "write the article about X", "create the brief/outline for X", or to continue the content plan in content/blog/README.md.
 ---
 
 # Blog article workflow
@@ -105,10 +105,36 @@ node .claude/skills/blog-article/scripts/process-image.mjs <input> public/blog/<
 - Don't put a block component (`ArticleImage`, `Callout`) in the middle of a markdown list: it splits the list.
 - Don't cannibalize: other articles' primary keywords get a short section + link, not a full treatment.
 
-### Links
+### Internal link research (required, both directions)
 
-- **Internal:** the new article ↔ pillar (and ↔ related clusters) with natural anchors, deep-linking to section ids when useful. Add a contextual link from the pillar (and bump its `updatedAt`). Add the article to the footer "Guides" column in `components/landing/footer.tsx`. "Keep reading" (`RelatedPosts`) is automatic. Only link to published articles.
-- **External authority: max 3 per article**: major media (TechCrunch, The Verge…), research (PubMed, Science), Wikipedia, each backing a specific claim. Reddit's own pages don't count toward the limit. Never link competitors. Check the pillar stays ≤ 3 too.
+Every article must link to the other related articles **and** be linked from them. Do the research with the audit script:
+
+```bash
+# 1. Link matrix: sections (with ids), internal links in/out, external links per article
+node .claude/skills/blog-article/scripts/link-audit.mjs
+
+# 2. Where OTHER articles mention the new article's topic (incoming link candidates)
+node .claude/skills/blog-article/scripts/link-audit.mjs --find <new-slug> "<primary kw>" "<secondary kw>" "<core concept>" …
+
+# 3. Where the NEW article mentions topics other articles cover (outgoing link candidates)
+node .claude/skills/blog-article/scripts/link-audit.mjs --find <other-slug> "<their kw>" "<their section topics>" …
+```
+
+Then:
+
+- **Outgoing:** link from the new article to every related published article (at least the pillar in the first section). Prefer deep links to the section that answers the reader's question at that point: `/blog/<slug>#<section-id>` (ids come from the matrix).
+- **Incoming:** add at least one contextual link to the new article in every related published article (the pillar always), in a sentence that already talks about the topic or a short new sentence. Bump each edited article's `updatedAt`.
+- One link per target section, natural descriptive anchors, never "click here". No links to unpublished articles.
+- Footer "Guides" column (`components/landing/footer.tsx`) gets the new article. "Keep reading" (`RelatedPosts`) is automatic.
+- Re-run the matrix: every related article should show the new slug under "Internal in" and "Internal out".
+
+### External authority links (3–5 per article, dofollow)
+
+- **3–5 links to high-authority third-party sites** per article: major media (TechCrunch, The Verge…), research (PubMed, Science), Wikipedia, official institutions. Each one backs a specific claim or defines a term in place (for example "shadowbanned" → Wikipedia).
+- **Dofollow:** plain markdown links render with `rel="noopener noreferrer"` and no `nofollow`. Never add `nofollow`, `ugc` or `sponsored`.
+- Reddit's own pages (reddithelp.com, redditinc.com, reddit.com) are primary sources for rules: use them, but they don't count toward the 3–5.
+- Never link competitors (karma tools, Reddit-marketing SaaS) or low-authority blogs. Check the URL returns 200 (`curl -s -o /dev/null -w '%{http_code}' <url>`).
+- Check edited older articles stay within 3–5 too (the matrix shows the "third-party" count).
 
 ## Step 5: Verify
 
@@ -122,7 +148,9 @@ NEXT_PUBLIC_SUPABASE_URL=https://example.supabase.co NEXT_PUBLIC_SUPABASE_PUBLIS
 - Heading ids exist for every `InThisGuide` link: `grep -oE 'id="[a-z0-9-]+"'`.
 - MentioHunt link has `utm_campaign=blog&utm_content=<slug_snake>` and `rel="noopener"` (no nofollow/noreferrer).
 - `BlogPosting`, `FAQPage`, `BreadcrumbList` JSON-LD present; "Keep reading" present.
-- Link counts per article: `grep -oE '\]\((https?://[^)]+)\)' content/blog/<slug>.mdx` → third-party domains ≤ 3.
+- `link-audit.mjs` matrix: the new article and every related one link to each other, and each article has 3–5 third-party external links.
+- No `nofollow` rel on any link: `grep -oE 'rel="[^"]*nofollow[^"]*"' .next/server/app/blog/<slug>.html | wc -l` → 0 (the word "nofollow" can appear in the article text, that's fine).
+- Every deep link (`/blog/<slug>#<id>`) points to an id that exists in the target article's HTML.
 
 Also run `npx eslint` on touched files.
 
