@@ -81,6 +81,7 @@ Karmicup mirrors **MentioHunt's design system** (https://mentiohunt.com). Keep n
   - Automatic retries (up to 2) with delay on network errors and 5xx responses
   - Rate-limit handling (429 with `Retry-After`)
   - No retries on 4xx errors (except 429)
+  - **App-only OAuth** when `REDDIT_CLIENT_ID` and `REDDIT_CLIENT_SECRET` are set: requests go to `oauth.reddit.com` with a cached bearer token (renewed on 401). This is required in production: Reddit answers 403 to unauthenticated requests from Cloudflare Workers. App-only requests see public data only (like a logged-out visitor), and endpoints that need a logged-in user (e.g. `post_requirements`) return `USER_REQUIRED`.
 - Catch `RedditApiError` (also exported from the helper) to handle specific HTTP status codes.
 - Paths can be relative (e.g. `/user/foo/about.json`) or full URLs.
 
