@@ -1,12 +1,18 @@
 import { ArticleFaq } from "@/components/blog/article-faq";
 import { ArticleImage } from "@/components/blog/article-image";
 import { AuthorBox } from "@/components/blog/author-box";
+import { RelatedPosts } from "@/components/blog/related-posts";
 import { FounderAvatar } from "@/components/founder-avatar";
 import { Footer } from "@/components/landing/footer";
 import { Navbar } from "@/components/landing/navbar";
 import { Eyebrow } from "@/components/landing/section-header";
 import { JsonLd } from "@/components/seo/json-ld";
-import { BLOG_POSTS, getPost, loadPostContent } from "@/content/blog/posts";
+import {
+  BLOG_POSTS,
+  getPost,
+  getRelatedPosts,
+  loadPostContent,
+} from "@/content/blog/posts";
 import { buildArticleMetadata, FOUNDER } from "@/consts/seo-metadata";
 import { buildArticleStructuredData } from "@/consts/structured-data";
 import { IconChevronRight } from "@tabler/icons-react";
@@ -118,6 +124,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
 
           <ArticleFaq faqs={post.faqs} />
           <AuthorBox />
+          <RelatedPosts posts={getRelatedPosts(post.slug)} />
         </div>
       </article>
 
