@@ -156,6 +156,96 @@ export function buildArticleStructuredData(article: {
   };
 }
 
+const TOOLS_URL = `${SITE_URL}/tools`;
+
+function faqPage(faqs: { question: string; answer: string }[]) {
+  return {
+    "@type": "FAQPage",
+    mainEntity: faqs.map(({ question, answer }) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+  };
+}
+
+/** Free tools hub: a collection page listing every tool, plus its FAQ. */
+export function buildToolsHubStructuredData(
+  tools: { slug: string; name: string }[],
+  faqs: { question: string; answer: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        url: TOOLS_URL,
+        name: PAGE_SEO.tools.title,
+        description: PAGE_SEO.tools.description,
+        isPartOf: { "@id": WEBSITE_ID },
+        mainEntity: {
+          "@type": "ItemList",
+          itemListElement: tools.map((tool, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            url: `${TOOLS_URL}/${tool.slug}`,
+            name: tool.name,
+          })),
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Free tools", item: TOOLS_URL },
+        ],
+      },
+      ...(faqs.length > 0 ? [faqPage(faqs)] : []),
+    ],
+  };
+}
+
+/** Free tool page: the tool as a free WebApplication + breadcrumbs + FAQ. */
+export function buildToolStructuredData(tool: {
+  slug: string;
+  name: string;
+  description: string;
+  updatedAt: string;
+  faqs: { question: string; answer: string }[];
+}) {
+  const url = `${TOOLS_URL}/${tool.slug}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": `${url}#app`,
+        name: tool.name,
+        url,
+        description: tool.description,
+        applicationCategory: "UtilitiesApplication",
+        operatingSystem: "Web",
+        browserRequirements: "Requires JavaScript",
+        isAccessibleForFree: true,
+        dateModified: tool.updatedAt,
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        publisher: { "@id": ORGANIZATION_ID },
+        isPartOf: { "@id": WEBSITE_ID },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: "Free tools", item: TOOLS_URL },
+          { "@type": "ListItem", position: 3, name: tool.name, item: url },
+        ],
+      },
+      ...(tool.faqs.length > 0 ? [faqPage(tool.faqs)] : []),
+    ],
+  };
+}
+
 /** About page: the founder as the main entity of a profile page. */
 export const ABOUT_STRUCTURED_DATA = {
   "@context": "https://schema.org",

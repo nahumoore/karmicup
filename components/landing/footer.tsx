@@ -28,6 +28,21 @@ const footerNav = [
     ],
   },
   {
+    title: "Free tools",
+    links: [
+      { label: "All free tools", href: "/tools" },
+      { label: "Reddit karma checker", href: "/tools/reddit-karma-checker" },
+      {
+        label: "Reddit shadowban checker",
+        href: "/tools/reddit-shadowban-checker",
+      },
+      {
+        label: "Subreddit requirements checker",
+        href: "/tools/subreddit-requirements-checker",
+      },
+    ],
+  },
+  {
     title: "Company",
     links: [
       { label: "About", href: "/about" },

@@ -4,18 +4,26 @@ import { Button } from "@/components/ui/button";
 import { PLATFORM_METRICS } from "@/consts/platform-metrics";
 import { IconArrowRight, IconLink } from "@tabler/icons-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
-/** In-article CTA to sign up for Karmicup. */
+/** In-article CTA to sign up for Karmicup (blog articles and free tools). */
 export function KarmicupCta({
   title = "Get real Redditors to see your next post",
   children,
+  className,
 }: {
   title?: string;
   children?: ReactNode;
+  className?: string;
 }) {
   return (
-    <aside className="my-9 flex flex-col gap-4 rounded-xl border border-border bg-white p-6 shadow-[0_1px_2px_rgba(15,15,15,0.04)] sm:p-7">
+    <aside
+      className={cn(
+        "my-9 flex flex-col gap-4 rounded-xl border border-border bg-white p-6 shadow-[0_1px_2px_rgba(15,15,15,0.04)] sm:p-7",
+        className,
+      )}
+    >
       <BrandLogo size="sm" />
       <p className="m-0 font-heading text-[22px] leading-[1.2] font-bold tracking-[-0.02em] text-ink">
         {title}
@@ -44,20 +52,30 @@ export function KarmicupCta({
 }
 
 /**
- * In-article CTA to MentioHunt. `content` identifies the article in
- * `utm_content` (snake_case slug), see "MentioHunt links" in AGENTS.md.
+ * In-article CTA to MentioHunt. `placement` is where it lives ("blog",
+ * "tools"...) and `content` identifies the page in `utm_content` (snake_case
+ * slug), see "MentioHunt links" in AGENTS.md.
  */
 export function MentiohuntCta({
   content,
+  placement = "blog",
   title = "Want backlinks, not just Reddit traffic?",
   children,
+  className,
 }: {
   content: string;
+  placement?: string;
   title?: string;
   children?: ReactNode;
+  className?: string;
 }) {
   return (
-    <aside className="my-9 flex flex-col gap-4 rounded-xl border border-border bg-surface p-6 sm:p-7">
+    <aside
+      className={cn(
+        "my-9 flex flex-col gap-4 rounded-xl border border-border bg-surface p-6 sm:p-7",
+        className,
+      )}
+    >
       <p className="m-0 inline-flex items-center gap-2 text-[13px] font-medium text-muted-foreground">
         <IconLink size={15} className="text-primary" />
         From the team behind Karmicup
@@ -75,7 +93,7 @@ export function MentiohuntCta({
       </div>
       <div>
         <Button asChild variant="outline" className="group h-11 gap-2 bg-white px-5 text-[15px]">
-          <MentiohuntLink placement="blog" content={content}>
+          <MentiohuntLink placement={placement} content={content}>
             See your free backlink preview
             <IconArrowRight
               size={17}

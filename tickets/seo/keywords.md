@@ -48,6 +48,10 @@ Keyword research for karmicup.com. Google and LLMs are the main acquisition chan
 | `/blog/how-to-get-karma-on-reddit` | how to get karma on reddit | how to get reddit karma, free reddit karma | Published |
 | `/blog/what-is-reddit-karma` | reddit karma | what is reddit karma, how does reddit karma work, how to check reddit karma | Published |
 | Free alternative to buying Reddit upvotes | buy reddit upvotes | reddit upvotes, free reddit upvotes | To do |
+| `/tools/reddit-karma-checker` | reddit karma checker | check reddit karma, reddit karma lookup (the article keeps "how to check reddit karma") | Published (free tool) |
+| `/tools/reddit-shadowban-checker` | reddit shadowban checker | am i shadowbanned on reddit, reddit shadowban check | Published (free tool) |
+| `/tools/subreddit-requirements-checker` | subreddit requirements | subreddit karma requirements, can i post in this subreddit | Published (free tool) |
+| `/tools` (hub) | free reddit tools | reddit tools | Published |
 
 Every content page should include a contextual CTA to MentioHunt (see "MentioHunt links" in `AGENTS.md`).
 

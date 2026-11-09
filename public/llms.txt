@@ -22,6 +22,10 @@
 
 - [Home](https://karmicup.com/): what Karmicup is, how the points system works, FAQ
 - [About](https://karmicup.com/about): why the founder, Nicolas, built Karmicup
+- [Free Reddit tools](https://karmicup.com/tools): free tools that need no signup and only read public Reddit data
+- [Reddit Karma Checker](https://karmicup.com/tools/reddit-karma-checker): total, post and comment karma, karma per day and account age for any Reddit username
+- [Reddit Shadowban Checker](https://karmicup.com/tools/reddit-shadowban-checker): checks whether a Reddit account is shadowbanned, suspended or visible to logged-out visitors, and how to appeal
+- [Subreddit Requirements Checker](https://karmicup.com/tools/subreddit-requirements-checker): karma and account age requirements, allowed post types and self-promotion rules of any subreddit, checked against a username
 - [Terms of Service](https://karmicup.com/terms): community rules and points policy
 - [Privacy Policy](https://karmicup.com/privacy)
 

@@ -1,0 +1,57 @@
+import { Callout } from "@/components/blog/callout";
+import { KarmicupCta, MentiohuntCta } from "@/components/blog/blog-ctas";
+
+## How to use the Reddit karma checker
+
+1. **Type a username** in the box above. You can write `spez`, `u/spez` or paste a profile link like `reddit.com/user/spez`.
+2. **Press Check karma.** We ask Reddit for the account's public profile, the same data anyone sees when they open it.
+3. **Read the breakdown.** You get the total, post and comment karma, karma per day and the account's age. The result has its own link, so you can share it.
+
+It works for any account that isn't suspended or hidden. If the checker can't find a username that you know exists, run our [shadowban checker](/tools/reddit-shadowban-checker): a hidden profile is the main sign of a shadowban.
+
+## What each number means
+
+| Number | What it is |
+| --- | --- |
+| **Total karma** | The number on the profile. It adds post, comment, awarder and awardee karma. |
+| **Post karma** | Karma from upvotes on your posts (Reddit's API still calls it "link karma"). |
+| **Comment karma** | Karma from upvotes on your comments. Many subreddits care about this one most. |
+| **Karma per day** | Total karma divided by the account's age in days. A quick way to compare accounts of different ages. |
+| **Account age** | Time since the account was created (its "cake day"). Many communities set a minimum. |
+| **Tier** | Our own label, from "Brand new" to "Power user". It's not an official Reddit rank. |
+
+Karma isn't one point per upvote. Reddit calculates it with a formula it doesn't publish, so popular posts earn less karma per upvote than you'd expect. [Reddit's help center](https://support.reddithelp.com/hc/en-us/articles/204511829-What-is-karma) explains the basics, and our guide covers [how Reddit karma works](/blog/what-is-reddit-karma#how-does-reddit-karma-work) in detail.
+
+## Why the checker and Reddit can show different numbers
+
+Small gaps are normal:
+
+- **Karma updates with a delay.** A comment that got upvoted an hour ago may not count yet.
+- **Votes are fuzzed.** Reddit slightly changes displayed vote counts to confuse spam bots.
+- **Awards karma.** The total includes awarder and awardee karma, which don't appear in the post/comment split. The checker shows them under the bar when an account has any.
+
+## What a karma checker can't show you
+
+Some numbers that decide whether your post survives aren't public:
+
+- **Subreddit karma.** The karma you earned inside one community. Moderators can [use it in AutoModerator rules](https://www.reddit.com/r/modnews/comments/zk9qn8/subreddit_karma_is_now_in_automod/), which is why a high-karma account can still be blocked where it never participated.
+- **Contributor Quality Score (CQS).** A private rating of how trustworthy your activity looks. We explain it with the [other things that block new accounts](/blog/how-to-get-karma-on-reddit#karma-isnt-the-only-thing-that-blocks-new-accounts).
+- **A community's hidden thresholds.** Many subreddits don't publish their minimums. Our [subreddit requirements checker](/tools/subreddit-requirements-checker) shows the ones they do publish and compares them with your account.
+
+<Callout variant="tip" title="Low karma? Comment before you post">
+
+Comment karma is the fastest to build and the one most communities check. Answer questions you actually know in mid-sized subreddits, sorted by New. Our guide on [how to get karma on Reddit](/blog/how-to-get-karma-on-reddit) has a realistic 14-day plan.
+
+</Callout>
+
+<KarmicupCta title="Get real Redditors to see your next post">
+
+Karmicup is a free community where members read, upvote and comment on each other's Reddit posts. No bots, no paid upvotes: you earn points by engaging and spend them when you post.
+
+</KarmicupCta>
+
+## Building karma to promote what you make?
+
+Karma gets you into communities, but Reddit links are `nofollow`: they can send visitors, not search rankings. If you want Google to rank your site higher, you need links from other websites.
+
+<MentiohuntCta placement="tools" content="reddit_karma_checker" />
