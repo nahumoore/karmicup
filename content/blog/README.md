@@ -47,7 +47,7 @@ Volumes are monthly US searches from Google Ads (bucketed). "–" means the keyw
 | Priority | Article | Slug | Primary keyword | Secondary keywords | Volume (primary) | Status |
 | ---: | --- | --- | --- | --- | ---: | --- |
 | 1 | **How to Get Karma on Reddit** (pillar) | `how-to-get-karma-on-reddit` | how to get karma on reddit | how to get reddit karma, free reddit karma, get reddit karma fast | 8,100 | Published |
-| 2 | What Is Reddit Karma and How Does It Work? | `what-is-reddit-karma` | reddit karma | what is reddit karma, how does reddit karma work, how to check reddit karma, what is karma used for | 2,900 | Written, in review |
+| 2 | What Is Reddit Karma and How Does It Work? | `what-is-reddit-karma` | reddit karma | what is reddit karma, how does reddit karma work, how to check reddit karma, what is karma used for | 2,900 | Published |
 | 3 | Reddit Karma Requirements: How Much Karma You Need to Post | `reddit-karma-requirements` | reddit karma requirements | minimum karma to post on reddit, how much karma to post, account age requirement | – | To do |
 | 4 | Why Can't I Post on Reddit? (New Account Restrictions) | `why-cant-i-post-on-reddit` | why can't i post on reddit | new reddit account can't post, post removed automatically, automod removed post | – | To do |
 | 5 | Reddit Contributor Quality Score (CQS) Explained | `reddit-contributor-quality-score` | reddit contributor quality score | reddit cqs, how to check cqs, improve cqs | – | To do |
@@ -78,8 +78,12 @@ Volumes are monthly US searches from Google Ads (bucketed). "–" means the keyw
 - **One primary keyword per article.** Don't target another article's primary keyword: if two articles compete for the same query, merge them.
 - **Structure**: one `h1` (the title), `h2`/`h3` for sections, a short FAQ at the end when there are real follow-up questions (add `FAQPage` structured data for it).
 - **Facts**: link to Reddit's official help pages (reddithelp.com) for rules and definitions. Add an "Updated on" date and refresh articles when Reddit changes how karma works.
-- **Internal links**: link to other Karmicup articles where they answer a question the reader has at that point (natural anchors, never "click here"), in both directions. Every article also gets a "Keep reading" block at the end automatically (`RelatedPosts`: same pillar first), and new articles go in the footer's "Guides" column (`components/landing/footer.tsx`).
-- **External authority links: max 3 per article.** Links to high-authority third-party sites (major media like TechCrunch, research like PubMed/Science, Wikipedia) that back up a claim. Reddit's own pages (reddithelp.com, redditinc.com, reddit.com) are primary sources and don't count toward the limit. Never link to competitors (karma tools, Reddit-marketing SaaS).
+- **Internal links (research them for every article).** Before publishing, run `node .claude/skills/blog-article/scripts/link-audit.mjs` (link matrix) and `--find <slug> "<keyword>" …` (mentions in other articles) to find where links fit, then link in **both directions**:
+  - The new article links to every published article it relates to (at least the pillar, in its first section), deep-linking to the section that answers the reader's question (`/blog/<slug>#<section-id>`).
+  - Every related published article gets at least one contextual link to the new one (bump its `updatedAt`).
+  - Natural, descriptive anchors (never "click here"), one link per target section, and no link to unpublished articles.
+  - Every article also gets the "Keep reading" block at the end automatically (`RelatedPosts`: same pillar first), and new articles go in the footer's "Guides" column (`components/landing/footer.tsx`).
+- **External authority links: 3–5 per article, dofollow.** Links to high-authority third-party sites only (major media like TechCrunch or The Verge, research like PubMed/Science, Wikipedia, official institutions), each one backing a specific claim. Plain markdown links render dofollow (`rel="noopener noreferrer"`, no `nofollow`): never add `nofollow`/`ugc`/`sponsored`. Reddit's own pages (reddithelp.com, redditinc.com, reddit.com) are primary sources: use them for rules and definitions, but they don't count toward the 3–5. Never link to competitors (karma tools, Reddit-marketing SaaS) or low-authority blogs.
 - **Length**: as long as the topic needs. The pillar is long-form (2,500+ words); cluster articles are usually 1,000–1,800 words.
 - **Author**: Nicolas (`FOUNDER` in `consts/seo-metadata.ts`), linking to `/about`.
 
@@ -95,8 +99,8 @@ Follow "MentioHunt links" in `AGENTS.md`: never hardcode the URL. Use `<Mentiohu
 1. Brief in `tickets/seo/briefs/<slug>.md` (SERP research + outline).
 2. `<slug>.mdx` added to this folder (body only, no H1).
 3. Entry added to `BLOG_POSTS` and a loader to `POST_LOADERS` in `posts.ts`: title, SEO title (under ~60 characters), description (120–160 characters), excerpt, pillar, primary keyword, dates, reading time, FAQ. The sitemap, metadata and structured data update automatically.
-4. Internal links in both directions (pillar ↔ cluster), plus the footer "Guides" link. Only link to articles that are already published.
-5. Up to 3 external authority links.
+4. Internal link research done (`link-audit.mjs`): links in both directions with every related published article, plus the footer "Guides" link.
+5. 3–5 dofollow external links to high-authority third-party sites.
 6. One Karmicup CTA and one MentioHunt CTA.
 7. When updating an article, change `updatedAt`.
 8. Status updated in the tables above and in `tickets/seo/keywords.md`.

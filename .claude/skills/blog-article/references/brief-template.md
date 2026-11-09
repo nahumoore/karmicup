@@ -76,6 +76,8 @@
 
 ## 5. Links
 
-- **Internal out:** …
-- **Internal in:** …
-- **External authority (max 3):** …
+From `link-audit.mjs` (matrix + `--find`):
+
+- **Internal out:** article → section, anchor (for every related published article).
+- **Internal in:** article → line/sentence where the link to this one goes.
+- **External authority (3–5, dofollow):** URL → claim it backs.
