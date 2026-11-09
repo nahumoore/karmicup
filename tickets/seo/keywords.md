@@ -45,7 +45,8 @@ Keyword research for karmicup.com. Google and LLMs are the main acquisition chan
 | Page | Primary keyword | Secondary | Status |
 | --- | --- | --- | --- |
 | `/` (home) | reddit upvotes | reddit karma, free reddit upvotes, free reddit karma | Done (title/description updated) |
-| `/blog/how-to-get-karma-on-reddit` | how to get karma on reddit | how to get reddit karma, free reddit karma | Written, in review |
+| `/blog/how-to-get-karma-on-reddit` | how to get karma on reddit | how to get reddit karma, free reddit karma | Published |
+| `/blog/what-is-reddit-karma` | reddit karma | what is reddit karma, how does reddit karma work, how to check reddit karma | Written, in review |
 | Free alternative to buying Reddit upvotes | buy reddit upvotes | reddit upvotes, free reddit upvotes | To do |
 
 Every content page should include a contextual CTA to MentioHunt (see "MentioHunt links" in `AGENTS.md`).

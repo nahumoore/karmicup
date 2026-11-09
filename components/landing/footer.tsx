@@ -21,6 +21,10 @@ const footerNav = [
         label: "How to get karma on Reddit",
         href: "/blog/how-to-get-karma-on-reddit",
       },
+      {
+        label: "What is Reddit karma?",
+        href: "/blog/what-is-reddit-karma",
+      },
     ],
   },
   {
